@@ -1,64 +1,97 @@
-# Döküman ve Kalite Standartları
+# Döküman ve Kalite Standartları (v2)
 
 Bu dosya, repodaki tüm faz dökümanlarının uyması gereken standartları tanımlar.
 Konumu: `docs/standards.md`
+Revizyon notu: v2 — master plan (00) ve karar kaydı (00_karar_kaydi.md) ile
+uyumlu hale getirildi. Metadata şeması genişletildi, sentez dosya düzeni
+netleştirildi (karar Y1, Y2).
 
 ## 1. Dosya İsimlendirme
 
-- Faz çıktıları: `NN_kisa_baslik.md` — iki haneli sıra numarası + snake_case Türkçe
-  kısa başlık. Örnek: `01_problem_cerceveleme.md`, `04_model_mimarileri.md`
-- Master plan: `00_master_plan.md`
-- Sentez dosyaları `docs/sentez/` altında: `sentez_raporu.md`, `sunum_taslagi.md`
-- Prompt arşivi: `prompts/NN_faz_adi_prompt.md` — hangi fazda hangi prompt
-  kullanıldıysa aynen saklanır (tekrarlanabilirlik için).
+- Faz çıktıları master plandaki şemayı izler (yürütme sırasına göre numaralı):
 
-## 2. Zorunlu Metadata Bloğu
+```
+docs/00_master_plan_literatur_taramasi.md
+docs/00_karar_kaydi.md
+docs/01_problem_cerceveleme_label_tasarimi.md
+docs/02_arac_piyasasi_dinamikleri.md
+docs/03_finansal_piyasa_yon_tahmini.md
+docs/04_arac_fiyat_akademik_literatur.md
+docs/05_feature_engineering_alternatif_veri.md
+docs/06_model_mimarileri_ensemble.md
+docs/07_validasyon_metrik_backtest.md
+docs/08_basarisizlik_modlari_tuzaklar.md
+docs/09_sentez_ve_karar_dokumani.md
+docs/sentez/                       (sunum kaynak dosyaları)
+```
 
-Her faz dökümanı şu blokla başlar:
+- Prompt arşivi: `prompts/NN_faz_adi_prompt.md` — her fazda kullanılan prompt,
+  çalıştırılmadan önce aynen arşivlenir (tekrarlanabilirlik kuralı).
 
-```markdown
+## 2. Zorunlu Metadata Bloğu (master plan şeması)
+
+Her faz dökümanı şu YAML front-matter ile başlar:
+
+```yaml
 ---
-faz: 03
-baslik: Feature Engineering ve Alternatif Veri Kaynakları
-tarih: 2026-07-20
-durum: taslak | incelemede | tamamlandi
-bagimli_fazlar: [01, 02]
-kaynak_arac: claude.ai Deep Research | Claude Code
-kapsam_ozeti: <1-2 cümle>
+faz_no: 01
+faz_adi: "Problem Çerçeveleme ve Label Tasarımı"
+tarih: 2026-07-13
+kapsam_ozeti: "Yön sınıflandırması için label taksonomisi, threshold ve ufuk seçimi"
+bagimli_oldugu_fazlar: []
+durum: taslak            # taslak | inceleniyor | tamamlandi
+hedef_kaynak_sayisi: 15
+gerceklesen_kaynak_sayisi: 0
+kaynak_arac: "claude.ai Research"   # claude.ai Research | Claude Code
+son_guncelleme: 2026-07-13
 ---
 ```
 
+`bagimli_oldugu_fazlar` alanı revizyon takibi içindir: bir faz güncellendiğinde,
+o fazı bağımlılık listesinde taşıyan tüm dökümanlar gözden geçirme kuyruğuna girer.
+
 ## 3. Faz Dökümanı İskeleti
 
-1. **Kapsam ve Hariç Tutulanlar** — bu fazda neye bakıldı, neye bilinçli bakılmadı
-2. **Ana Bulgular** — numaralı, her bulgu kaynaklı
-3. **Projeye Uygulanabilirlik** — her ana bulgunun bizim probleme çevirisi
-4. **Açık Sorular / Literatürde Net Olmayanlar**
-5. **Kaynakça** — her kaynak için 1-2 cümlelik "neden ilgili" notu
+Her fazın kendi başlık iskeleti master planda tanımlıdır ve o iskelet esastır.
+Ortak zorunlu bölümler: her ana bulgu bölümünün altında "Projeye Uygulanabilirlik"
+notu, ayrıca dökümanın sonunda "Açık Sorular / Literatürde Net Olmayanlar" ve
+gerekçe notlu "Kaynakça".
 
-## 4. Kalite Kontrol Listesi (bir faz "tamamlandı" sayılmadan önce)
+## 4. Kalite Kontrol Listesi (master plan Bölüm 5 esas alınır)
 
-- [ ] Metadata bloğu eksiksiz ve güncel
-- [ ] Temel/giriş seviyesi ML açıklaması İÇERMİYOR
-- [ ] Her iddia en az bir kaynağa bağlı
-- [ ] Her ana bulgunun "projeye uygulanabilirlik" karşılığı var
-- [ ] Belirsiz noktalar "literatürde net değil" olarak işaretlenmiş, tahmin yok
-- [ ] Kaynakçadaki her girişte gerekçe notu var
+Bir faz, aşağıdakilerin HEPSİ sağlanmadan `tamamlandi` olamaz:
+
+- [ ] Her somut iddia en az bir kaynağa atıfla destekleniyor (yazar/kurum + yıl, mümkünse DOI/link)
+- [ ] Temel ML/istatistik bilgisi tekrarı yok
+- [ ] Her ana bulgu bölümünde somut, aksiyon alınabilir "Projeye Uygulanabilirlik" notu var
+- [ ] Kaynak çeşitliliği yeterli (tek tip kaynağa dayanmıyor)
+- [ ] Çelişkili bulgular açıkça işaretlenmiş
+- [ ] Kapsam dışına taşma yok (scope creep kontrolü)
+- [ ] Arama stratejisi (anahtar kelimeler) dökümanda şeffaf belirtilmiş
+- [ ] Önceki fazlarla çelişen bulgular çapraz-referanslanmış
+- [ ] Metadata bloğu eksiksiz, `durum` güncel
 - [ ] Kullanılan prompt `prompts/` klasörüne arşivlenmiş
-- [ ] Proje sahibi gözden geçirip onayladı (durum: tamamlandi ancak bundan sonra)
+- [ ] Şirket içi hiçbir bilgi içermiyor (karar K5) — yalnızca kamuya açık kaynak
+- [ ] Proje sahibi gözden geçirip onayladı
 
 ## 5. Yazım Kuralları
 
 - Dil: Türkçe. Teknik terimler yaygın İngilizce haliyle bırakılabilir
-  (ör. data leakage, walk-forward validation) — zorlama çeviri yapılmaz.
-- İddialar ölçülü yazılır: literatür ne diyorsa o; abartı ve pazarlama dili yok.
-- Uzun paragraflar yerine kısa, taranabilir bölümler; ancak madde işaretleri
-  tek kelimelik değil, açıklayıcı cümleler halinde olur.
+  (data leakage, walk-forward validation vb.); zorlama çeviri yapılmaz.
+- Kaynak başlıkları orijinal dilinde bırakılır.
+- İddialar ölçülü yazılır; abartı ve pazarlama dili yok. Literatürde net
+  olmayan noktalar tahminle doldurulmaz, açıkça işaretlenir.
+- Uzunluk üst sınırı yok (karar K7); yoğunluk esas, şişirme yasak.
 
-## 6. Format Dönüşümleri
+## 6. Bağlayıcı Kapsam Kararları (özet — detay: 00_karar_kaydi.md)
 
-- Kaynak format her zaman Markdown'dır; docx/pptx yalnızca `exports/` altına,
-  pandoc / python-docx / python-pptx ile üretilir ve Git'e commit edilmez
-  (`.gitignore` içinde `exports/`).
-- Kurumsal şablon gerektiğinde şablon dosyası repoya eklenir ve dönüşümlerde
-  referans alınır.
+- İkinci el piyasası odağı; yeni araç yalnızca Faz 2'de dışsal faktör (K3)
+- Coğrafya: metodoloji fazları uluslararası, Faz 2 Türkiye, Faz 4 hibrit (K4)
+- Yalnızca kamuya açık kaynaklar; şirket içi bilgi yasak (K5)
+- Geniş kaynak kapsamı; faz bazlı öncelik sıralaması geçerli (K6)
+
+## 7. Format Dönüşümleri
+
+- Kaynak format her zaman Markdown; docx/pptx yalnızca `exports/` altına
+  pandoc / python-docx / python-pptx ile üretilir, Git'e commit edilmez
+  (`.gitignore`: `exports/`).
