@@ -1,0 +1,21 @@
+# Dönüşüm çıktıları (docx/pptx/pdf) — git'e girmez
+exports/
+
+# Office/PowerPoint kilit dosyaları
+~$*.docx
+~$*.pptx
+~$*.xlsx
+
+# Python (pandoc/python-docx/python-pptx yardımcı scriptleri için)
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editör
+.vscode/
+.idea/
