@@ -2,7 +2,7 @@
 doküman_tipi: master_plan
 proje: "Araç Piyasası Fiyat Yönü Tahmini — Literatür Taraması"
 tarih: 2026-07-13
-durum: onaylandi 
+durum: tamamlandi 
 kapsam: "Literatür taramasının faz yapısı, sıralaması, çıktı standartları ve kalite kriterleri. Bu dökümanda kaynak taraması YAPILMAMIŞTIR."
 ---
 
