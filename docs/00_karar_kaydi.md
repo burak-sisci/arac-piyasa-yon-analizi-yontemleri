@@ -2,7 +2,7 @@
 dokuman_tipi: karar_kaydi
 proje: "Araç Piyasası Fiyat Yönü Tahmini — Literatür Taraması"
 tarih: 2026-07-13
-revizyon: v3 (N4–N8 eklendi — Faz 3 bulguları sonrası)
+revizyon: v4 (N9 eklendi — Faz 4 bulguları sonrası)
 iliskili_dokuman: 00_master_plan_literatur_taramasi.md
 durum: onaylandi
 ---
@@ -114,6 +114,28 @@ trendi = tedrici drift). Yüksek-frekanslı algoritmik drift-detection
 güçsüz bırakır. Latent rejim modelleri (HMM) yerine dışsal-değişken tabanlı
 rejim tercih edilir. → Faz 6 ve 7 dikkate alır.
 
+**N9 (Faz 4) — Projenin novelty konumu belgelendi.** Kümüle ilan-fiyat
+endeksinin zaman serisi YÖN sınıflaması (up/down/stable) hakemli literatürde
+YOKTUR; en yakın çalışma (Bukvić et al. 2022, Sustainability 14(24):17034) dahi
+kesitsel araç-bazlıdır. Sentez ve sunum bu boşluğu projenin gerekçesi
+("hazır reçete yok, öncü baseline kuruyoruz") olarak kullanır.
+
+Devşirilebilir çekirdek (araç literatüründen alınacaklar):
+- Prediktif öznitelik seti (yaş, km, marka/model, motor, yakıt, şanzıman,
+  donanım) → segmentleme ve feature mühendisliği girdisi (Faz 5).
+- Residual value dalının asimetrik-maliyet çerçevesi (Dress et al. 2018) →
+  sınıf-ağırlıklı kayba çevrilir; N4 ile uyumludur (Faz 6).
+- Kaggle veri-temizlik pratikleri (metin parse, kategorik indirgeme, 99p
+  aykırı-değer kırpma, deduplication) → veri hattı (Faz 5).
+ÇEVRİLEMEYEN: tüm bu literatür araç-seviyesi nokta-tahmindir (regresyon);
+piyasa/segment seviyesi yön sınıflaması köprüsü literatürde hazır DEĞİLDİR,
+projede inşa edilecektir.
+
+Kritik geçerlilik varsayımı (N9 + K8 kesişimi): İlan-fiyatı endeksinin YÖNÜ,
+gerçekleşen-fiyat endeksinin yönünü izler — ANCAK pazarlık marjı zamanla/rejime
+göre değişirse bu ilişki bozulur. Bu, projenin en kritik test edilecek
+varsayımıdır. → Faz 8 (başarısızlık modları) ve sentez ele alır.
+
 ## C. Yapısal Kararlar (Y)
 
 **Y1:** Sentez dökümanı `docs/09_sentez_ve_karar_dokumani.md` olarak numaralı
@@ -125,5 +147,5 @@ seride tutulur. Sunum kaynak dosyaları `docs/sentez/` altında kalır.
 **Y3:** Faz dökümanlarının yapısı Faz 1'de oluşan genişletilmiş şablonu izler:
 TL;DR → Key Findings → Details (faz-özel iskelet) → Recommendations → Caveats →
 Kaynakça → Kullanılan Arama Sorguları. Kaynakça tek listedir; düşük kanıt gücü
-taşıyan kaynaklar (sektör beyanı, basın, hakem-öncesi preprint) giriş içinde
-işaretlenir.
+taşıyan kaynaklar (sektör beyanı, basın, hakem-öncesi preprint, endüstri/hakemsiz)
+giriş içinde işaretlenir.
