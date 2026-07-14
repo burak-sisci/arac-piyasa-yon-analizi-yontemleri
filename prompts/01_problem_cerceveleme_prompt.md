@@ -1,13 +1,3 @@
-# Faz 1 Promptu — Problem Çerçeveleme ve Label Tasarımı
-
-Kullanım: claude.ai'de yeni sohbet, **Research (Deep Research) AÇIK**.
-Arşiv konumu: `prompts/01_problem_cerceveleme_prompt.md`
-
----
-
-## KULLANILACAK PROMPT (kopyala-yapıştır)
-
-```
 ROL VE BAĞLAM
 
 Sen, bir araç piyasası fiyat yönü tahmin projesi için literatür taraması yürüten
@@ -106,16 +96,3 @@ KALİTE KURALLARI
   diye açıkça yaz; tahmin yürütme.
 - Kullandığın nihai arama sorgularını dökümanın sonunda şeffaf şekilde listele.
 - Dil: Türkçe; kaynak başlıkları orijinal dilinde.
-```
-
----
-
-## Kullanım Notları (prompta dahil değil)
-
-1. Çalıştırmadan önce bu dosyayı `prompts/01_problem_cerceveleme_prompt.md`
-   olarak commit'le.
-2. Research çıktısını `docs/01_problem_cerceveleme_label_tasarimi.md` olarak
-   kaydet, `durum: taslak` bırak.
-3. Çıktıyı bana getir — kalite kontrol listesinden geçirip revizyon önerilerimi
-   vereceğim; onaydan sonra `tamamlandi` işaretleyip Faz 2/3/4 promptlarına
-   geçeceğiz (bu üçü paralel çalıştırılabilir).
