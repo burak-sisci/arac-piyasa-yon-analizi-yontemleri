@@ -29,7 +29,7 @@ ve karar-odaklı bir sunumdur.
 - [x] Faz 0 — Master plan üretildi ve onaylandı
 - [x] Faz 1 — Problem Çerçeveleme ve Label Tasarımı
 - [ ] Faz 2 — Araç Piyasasına Özgü Dinamikler
-- [ ] Faz 3 — Finansal Piyasa Yön Tahmini Literatürü
+- [x] Faz 3 — Finansal Piyasa Yön Tahmini Literatürü
 - [ ] Faz 4 — Araç Fiyat Tahmini Akademik Literatürü
 - [ ] Faz 5 — Feature Engineering ve Alternatif Veri Kaynakları
 - [ ] Faz 6 — Model Mimarileri ve Ensemble Stratejileri
