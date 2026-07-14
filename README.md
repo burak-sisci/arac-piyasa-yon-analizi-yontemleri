@@ -28,7 +28,7 @@ ve karar-odaklı bir sunumdur.
 - [x] Faz 0 — Planlama promptu hazırlandı
 - [x] Faz 0 — Master plan üretildi ve onaylandı
 - [x] Faz 1 — Problem Çerçeveleme ve Label Tasarımı
-- [ ] Faz 2 — Araç Piyasasına Özgü Dinamikler
+- [x] Faz 2 — Araç Piyasasına Özgü Dinamikler
 - [x] Faz 3 — Finansal Piyasa Yön Tahmini Literatürü
 - [ ] Faz 4 — Araç Fiyat Tahmini Akademik Literatürü
 - [ ] Faz 5 — Feature Engineering ve Alternatif Veri Kaynakları
