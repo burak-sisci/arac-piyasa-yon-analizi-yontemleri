@@ -31,7 +31,7 @@ ve karar-odaklı bir sunumdur.
 - [x] Faz 2 — Araç Piyasasına Özgü Dinamikler
 - [x] Faz 3 — Finansal Piyasa Yön Tahmini Literatürü
 - [x] Faz 4 — Araç Fiyat Tahmini Akademik Literatürü
-- [ ] Faz 5 — Feature Engineering ve Alternatif Veri Kaynakları
+- [x] Faz 5 — Feature Engineering ve Alternatif Veri Kaynakları
 - [ ] Faz 6 — Model Mimarileri ve Ensemble Stratejileri
 - [ ] Faz 7 — Validasyon, Metrik Seçimi, Backtest Metodolojisi
 - [ ] Faz 8 — Başarısızlık Modları, Tuzaklar, Data Leakage Riskleri
