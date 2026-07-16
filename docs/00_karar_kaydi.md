@@ -2,7 +2,7 @@
 dokuman_tipi: karar_kaydi
 proje: "Araç Piyasası Fiyat Yönü Tahmini — Literatür Taraması"
 tarih: 2026-07-13
-revizyon: v6 (N11 eklendi — Faz 6 bulguları sonrası)
+revizyon: v7 (N12 eklendi — Faz 7 bulguları sonrası)
 iliskili_dokuman: 00_master_plan_literatur_taramasi.md
 durum: onaylandi
 ---
@@ -78,18 +78,21 @@ deney gerektirir.
 
 **N5 (Faz 3) — Metrik ve validasyon zorunlulukları.** Birincil metrik: MCC ve
 macro-F1; accuracy tanımlayıcı. Rastgele k-fold CV YASAKTIR; kronolojik ayrım
-zorunludur. → Faz 7 protokole çevirir.
+zorunludur. → Faz 7'de protokole çevrildi (N12).
 
 **N6 (Faz 3) — Başarı kriteri: naif baseline üzeri iyileşme.** Referans:
 persistence + "her şeye stable". Geçilemezse "sinyal yok" değerli negatif
-bulgudur. %70+ iddiaları hedef alınmaz.
+bulgudur. %70+ iddiaları hedef alınmaz. → Faz 7'de baseline seti + anlamlılık
+testi olarak somutlaştı (N12).
 
 **N7 (Faz 3) — Falsifikasyon audit'i zorunludur.** Null veri üzerinde pipeline
-testi; denenen model sayısı kayıt + çoklu-test farkındalığı. → Faz 7'nin görevi.
+testi; denenen model sayısı kayıt + çoklu-test farkındalığı. → Faz 7'de somut
+protokole çevrildi (N12: blok-permütasyon null + pozitif kontrol + deneme günlüğü).
 
 **N8 (Faz 3) — Rejim izleme dışsal olay-tabanlıdır.** Yüksek-frekanslı algoritmik
 drift-detection aylık ufka AKTARILAMAZ. Latent HMM yerine dışsal-değişken tabanlı
-rejim. → Faz 6'da öznitelik olarak modele girdi.
+rejim. → Faz 6'da öznitelik olarak modele girdi; Faz 7'de rejim-ayrık değerlendirme
+protokolü oldu (N12).
 
 **N9 (Faz 4) — Projenin novelty konumu belgelendi.** Kümüle ilan-fiyat endeksinin
 zaman serisi YÖN sınıflaması hakemli literatürde YOKTUR (en yakın Bukvić vd. 2022
@@ -123,6 +126,42 @@ naif baseline üzeri MCC (N6).
 
 DEEP LEARNING BASELINE DEĞİLDİR. Saf segment-başı lokal modeller önerilmez
 (az-gözlem gürültüsü). → Faz 7 ve Faz 8 esas alır.
+
+**N12 (Faz 7) — Validasyon ve raporlama protokolü.** Bir deneyin "güvenilir"
+ilan edilmesi için 24-maddelik kontrol listesi (Faz 7 Bölüm 9) bağlayıcı
+güvenilirlik sözleşmesidir. Çekirdek kararlar:
+
+- OMURGA: genişleyen-pencere walk-forward + 1 ay ufuk + 1-2 ay purge/embargo;
+  test dönemi gözlem bütçesine göre 6-24. "50-100 fold" YASAK (her fold'a ~1
+  gözlem düşer). Eşik: N<50 → yalnızca keşifsel/negatif-bulgu; N≥80 → tam
+  protokol; N≥150 → CPCV opsiyonel.
+- AS-OF DATE MİMARİSİ: Tek merkezî bilgi-kesim tarihi; kronoloji (N5) + makro
+  vintage/yayın-gecikmesi (en kritik leakage riski) tek noktadan garanti.
+  Vintage yoksa pseudo-real-time +1/+2 ay lag. Ön-işleme/encoding/feature-
+  selection fold-İÇİNDE fit.
+- METRİK: macro-MCC (Gorodkin R_K, micro-MCC değil) + macro-F1 + per-class
+  P/R/support; hepsine blok-bootstrap %95 CI (B≥1000, blok ~n^(1/3), seed
+  raporlu). Accuracy tanımlayıcı.
+- BASELINE + ANLAMLILIK: persistence, mevsimsel-naif, hep-stable, prior-oran;
+  yön-anlamlılığı bootstrap-PT (Pesaran-Timmermann 2009 ruhu; asimptotik PT
+  N<75'te over-sized). Fark CI'ı sıfırı içeriyorsa → "sinyal yok" (N6, geçerli).
+- FALSİFİKASYON (BLOKE EDİCİ GEÇİT): blok-permütasyon hedef-shuffle null
+  (B≥1000, tam pipeline); null ortalaması ≈0 DEĞİLSE DUR — leakage var. Ayrıca
+  sentetik-sinyal pozitif kontrolü + random-walk benchmark.
+- ÇOKLU-TEST: deneme günlüğü (her run kaydı) + denenen N raporu + permütasyon
+  max-istatistik / FDR düzeltmesi + MinBTL kontrolü. Nested CV yerine katı
+  hiperparametre bütçesi + kilitli hold-out (az-gözlem gerçekçiliği).
+- REJİM-FARKINDALIK: şok takvimi ÖNCEDEN sabit (veriden keşfetme); rejim-ayrık
+  MCC (sakin vs şok-sonrası); dağılım-kayması (covariate/temporal vs concept
+  drift) ayrıştırılır.
+
+İşaretli çelişki: Bergmeir & Benítez (2012) belirli koşulda blocked-CV'yi
+standart önerir; ancak durağanlık varsayar, bu problemde rejim değişimi
+nedeniyle ihlal edilir → N5 korunur, blocked-CV yalnızca purge+embargo ile
+ikincil/yardımcı tahmin olarak. Boşluk: "deflated MCC" standart formülü yok;
+permütasyon max-istatistik null'u muadil olarak kullanılır.
+
+→ Faz 8 protokolün kaçırabileceği riskleri avlar.
 
 ## C. Yapısal Kararlar (Y)
 

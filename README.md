@@ -33,7 +33,7 @@ ve karar-odaklı bir sunumdur.
 - [x] Faz 4 — Araç Fiyat Tahmini Akademik Literatürü
 - [x] Faz 5 — Feature Engineering ve Alternatif Veri Kaynakları
 - [x] Faz 6 — Model Mimarileri ve Ensemble Stratejileri
-- [ ] Faz 7 — Validasyon, Metrik Seçimi, Backtest Metodolojisi
+- [x] Faz 7 — Validasyon, Metrik Seçimi, Backtest Metodolojisi
 - [ ] Faz 8 — Başarısızlık Modları, Tuzaklar, Data Leakage Riskleri
 - [ ] Sentez raporu (`09_sentez_ve_karar_dokumani.md`)
 - [ ] Sunum
