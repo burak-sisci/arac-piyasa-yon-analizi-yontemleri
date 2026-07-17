@@ -2,7 +2,7 @@
 dokuman_tipi: karar_kaydi
 proje: "Araç Piyasası Fiyat Yönü Tahmini — Literatür Taraması"
 tarih: 2026-07-13
-revizyon: v7 (N12 eklendi — Faz 7 bulguları sonrası)
+revizyon: v8 — FİNAL (N13 eklendi; tüm 8 tarama fazı tamamlandı)
 iliskili_dokuman: 00_master_plan_literatur_taramasi.md
 durum: onaylandi
 ---
@@ -99,7 +99,8 @@ zaman serisi YÖN sınıflaması hakemli literatürde YOKTUR (en yakın Bukvić 
 kesitsel). Devşirilebilir çekirdek: prediktif öznitelik seti, residual value
 asimetrik-maliyet çerçevesi (→ sınıf-ağırlıklı kayıp), Kaggle veri-temizlik.
 Kritik varsayım (N9+K8): ilan-yönü ↔ gerçekleşen-yön ilişkisi pazarlık marjı
-rejime göre değişirse bozulur. → Faz 8 ve sentez.
+rejime göre değişirse bozulur. Projenin en kritik test edilecek varsayımıdır.
+→ Faz 8'de hakemli kanıtla riskli bulundu ve test tasarımı verildi (N13).
 
 **N10 (Faz 5) — Kompozisyon düzeltmesi ve feature üretimi reçeteye bağlandı.**
 (1) BİRİNCİL: aylık hedonik imputation (log-fiyat ~ N9 seti), yön etiketi
@@ -162,6 +163,44 @@ ikincil/yardımcı tahmin olarak. Boşluk: "deflated MCC" standart formülü yok
 permütasyon max-istatistik null'u muadil olarak kullanılır.
 
 → Faz 8 protokolün kaçırabileceği riskleri avlar.
+
+**N13 (Faz 8) — Kritik varsayım riski ve önceden-ilan-edilen terk kriterleri.**
+
+K8+N9 varsayımı (ilan fiyatı yönü ↔ gerçekleşen fiyat yönü) emlak literatüründe
+HAKEMLİ KANITLA RİSKLİDİR: pazarlık marjı (sale-to-list oranı) pro-döngüseldir —
+yükselişte daralır, düşüşte genişler; sinyal döngü DÖNÜM NOKTALARINDA sistematik
+sapar (Anenberg & Laufer 2017, REStat 99(4):722-734; Anenberg 2016; Han & Strange
+2016; Carrillo vd. 2015). Araç piyasasına transfer güçlü analojidir ama doğrudan
+ölçülmemiştir.
+
+ZORUNLU DOLAYLI TEST: (a) DOM medyanı + fiyat-düşürme oranı + conversion oranı
+proxy paneli (ilan-yön sinyaliyle ters hareket = sapma alarmı); (b) bağımsız
+işlem-tabanlı serilerle (TÜİK, BETAM/sahibindex) periyodik yönsel-uyum ölçümü;
+(c) rejim-koşullu tutarlılık testi (yükseliş/düşüş dilimleri). Proxy verisi
+çeyreğin 1-2. ayından alınır (3. ay forward-looking gürültü ekler; Trojanek vd.
+2025).
+
+BEŞ YÜKSEK×YÜKSEK RİSK (registri #1,4,5,6,9): (1) K8 ilan-yönü sapması,
+(4) gizli leakage, (5) naif baseline'ı yenememenin gizlenmesi, (6) çoklu-test
+şişmesi, (9) kur/ÖTV/arz şokunda rejim çöküşü.
+
+BEŞ ÖNCEDEN-İLAN-EDİLEN TERK/YENİDEN-ÇERÇEVELEME EŞİĞİ (bağlayıcı — biri
+karşılanırsa proje mevcut haliyle sürdürülmez):
+1. Model, dokunulmamış holdout'ta iki naif baseline'ı (persistence + çoğunluk)
+   güven aralığı örtüşmeden yenemiyorsa → sinyal yok.
+2. İlan-yön sinyalinin işlem serisiyle yönsel uyumu şans üstü DEĞİL veya
+   rejimler arası kararsızsa → hedef geçersiz; yeniden-çerçevele.
+3. Performans yalnızca tek rejimde pozitif, diğerlerinde baseline-altıysa →
+   genellenebilir sinyal yok.
+4. İstatistiksel edge işlem maliyeti/karar frictions altında pozitif fayda
+   üretmiyorsa → karar-faydası yok.
+5. Leakage düzeltmesi sonrası performans naif seviyeye düşüyorsa → önceki
+   sonuçlar artefakttı; terk.
+
+YENİDEN-ÇERÇEVELEME SEÇENEĞİ: hedefi işlem-vekili olmaktan çıkarıp doğrudan
+ilan-davranışı (DOM/fiyat-düşürme) tahminine kaydırmak; "sinyal yok"u dürüst
+negatif-sonuç raporu olarak yayımlamak (N6 ile tutarlı). → Sentez bunları
+projenin risk ve karar çerçevesi olarak sunar.
 
 ## C. Yapısal Kararlar (Y)
 
