@@ -1,6 +1,13 @@
 # Dönüşüm çıktıları (docx/pptx/pdf) — git'e girmez
 exports/
 
+# Çekilen veri — git'e girmez (prompt/kod versiyonlanır, veri versiyonlanmaz;
+# karar K5: yalnızca kamuya açık kaynaklar, şirket içi veri repoya girmez)
+data/raw/*
+data/processed/*
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+
 # Office/PowerPoint kilit dosyaları
 ~$*.docx
 ~$*.pptx
