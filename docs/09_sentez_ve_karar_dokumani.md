@@ -1,14 +1,14 @@
 ---
 faz_no: 09
 faz_adi: "Sentez ve Karar Dökümanı"
-tarih: 2026-07-16
+tarih: 2026-07-18
 kapsam_ozeti: "Faz 1-8 bulgularının ve karar kaydının (K1-K8, N1-N13) tek karar-odaklı anlatıda birleştirilmesi; yeni tarama içermez"
 bagimli_oldugu_fazlar: [01, 02, 03, 04, 05, 06, 07, 08]
-durum: tamamlandi
+durum: taslak
 hedef_kaynak_sayisi: 0
 gerceklesen_kaynak_sayisi: 0
 kaynak_arac: "Claude Code (sentez)"
-son_guncelleme: 2026-07-16
+son_guncelleme: 2026-07-18
 ---
 
 # Faz 09 — Sentez ve Karar Dökümanı
@@ -18,6 +18,12 @@ kararları (K1–K8, N1–N13) tek bir karar-odaklı anlatıda birleştirmek. Bu
 fazların yerine geçmez; onları birbirine bağlar. Her bölüm ilgili fazın ana
 teslimatını özetler ve detay için o faza işaret eder. Yeni literatür taraması
 yapılmamıştır; buradaki her iddia bir faz dökümanına veya karar kaydına dayanır.
+
+**Revizyon notu:** Bu, dökümanın ikinci üretimidir. İlk üretim sırasında
+`docs/08_basarisizlik_modlari_tuzaklar.md` repoya henüz eklenmemişti; Bölüm B8 ve
+D o zaman yalnızca karar kaydındaki N13 özetine dayanıyordu. Bu sürüm, Faz 8'in
+tam metnini (20 maddelik başarısızlık registrisi + 7 kategori + kendi Açık
+Sorular bölümü) okuyarak yeniden yazılmıştır.
 
 **Okuma kılavuzu:** Bölüm A yönetici/mentor özetidir (teknik olmayan okuyucu için).
 Bölüm B teknik gövdedir (geliştirici ekip için). Bölüm C fazlar arası karar
@@ -70,20 +76,25 @@ kabul edilmiş olası sonuçlarından biridir.
 
 **En kritik risk ve sigortası [N13]:** Projenin temel varsayımı, ilan
 fiyatlarının yönünün gerçekleşen satış fiyatlarının yönünü izlediğidir [K8+N9].
-Emlak piyasası literatüründen hakemli kanıt bu varsayımın **dönüm noktalarında
-bozulabileceğini** gösteriyor: pazarlık payı piyasa yükselirken daralır,
-düşerken genişler; yani sinyal tam da en kritik anlarda (piyasa yön
-değiştirirken) sapabilir. Bu yüzden Faz 8, dolaylı doğrulama testlerini (ilanda
-kalma süresi, fiyat indirme oranı, satılan/satılık oranı panelleri; bağımsız
-işlem-tabanlı serilerle yön uyumu) **zorunlu** kılar ve **beş önceden ilan
-edilmiş terk/yeniden-çerçeveleme eşiği** tanımlar. Bu eşiklerden biri
-karşılanırsa proje mevcut haliyle sürdürülmez; hedef ya yeniden çerçevelenir
-(örn. doğrudan ilan-davranışı tahmini) ya da "sinyal yok" raporu yayımlanır.
+Faz 8'in kırmızı-takım denetimi bu varsayımı 20 maddelik bir başarısızlık
+registrisinin **en tepesine** koyar: konut piyasası literatüründen hakemli kanıt
+(Anenberg & Laufer 2017; Anenberg 2016; Han & Strange 2016; Carrillo vd. 2015),
+pazarlık payının **dönüm noktalarında sistematik olarak** saptığını gösteriyor —
+piyasa yükselirken daralıyor, düşerken genişliyor. Yani sinyal tam da en kritik
+anlarda (piyasa yön değiştirirken) yanılabilir. Bu yüzden Faz 8, dolaylı
+doğrulama testlerini (ilanda kalma süresi, fiyat indirme oranı, satılan/satılık
+oranı panelleri; bağımsız işlem-tabanlı serilerle yön uyumu) **zorunlu** kılar
+ve **beş önceden ilan edilmiş terk/yeniden-çerçeveleme eşiği** tanımlar. Bu
+eşiklerden biri karşılanırsa proje mevcut haliyle sürdürülmez; hedef ya yeniden
+çerçevelenir (örn. doğrudan ilan-davranışı tahmini) ya da "sinyal yok" raporu
+yayımlanır.
 
 **Yöneticiye net mesaj:** Bu, "kesin kazanç" vaat eden bir model projesi değil;
 başarı ve başarısızlık kriterleri **önceden tanımlanmış**, falsifiye edilebilir,
 disiplinli bir deney programıdır. Karar noktaları (devam / yeniden çerçevele /
-terk et) baştan bellidir ve veriye bakmadan sabitlenmiştir.
+terk et) baştan bellidir ve veriye bakmadan sabitlenmiştir. Faz 8'in 20 maddelik
+registrisi, bu kararların hangi somut erken-uyarı işaretine ve azaltıcı önleme
+dayandığını tek tek belgeler (Bölüm B8).
 
 ---
 
@@ -285,34 +296,94 @@ purge+embargo ile ikincil/yardımcı tahmin olarak kullanılabilir. Ayrıca "def
 MCC" için standart formül yoktur; permütasyon max-istatistik null'u muadil olarak
 kullanılır (literatürde net değil). Detay: `07_validasyon_metrik_backtest.md`.
 
-### B8. Başarısızlık modları ve terk kriterleri — Faz 8 (+ N13)
+### B8. Riskler ve terk kriterleri — Faz 8 (+ N13)
 
-Faz 8, önceki yedi fazı kırmızı-takım gözüyle denetler; ana teslimatı
-başarısızlık registridir (detay: `08_basarisizlik_modlari_tuzaklar.md`). Karar
-kaydına geçen sonuçlar [N13]:
+Faz 8, yeni metodoloji önermeden önceki yedi fazı **"yapıcı kötümserlik"**
+ilkesiyle kırmızı-takım gözüyle denetler (Faz 8, Bölüm 1): amaç projeyi
+durdurmak değil, baseline'ın *nerede ve neden* başarısız olacağını önceden
+avlamak. Her risk **olasılık × etki** ekseninde derecelendirilir. Ana teslimat,
+**20 maddelik Başarısızlık Modu Registrisi'dir** (Faz 8, Bölüm 9), yedi kaynak
+kategorisinde toplanır: (1) veri/hedef kaynaklı, (2) etiketleme kaynaklı,
+(3) rejim/non-stationarity kaynaklı, (4) model kaynaklı, (5) değerlendirme
+kaynaklı, (6) dağıtım/operasyon kaynaklı, (7) yorumlama/karar kaynaklı.
 
-**Kritik varsayım hakemli kanıtla risklidir.** K8+N9 varsayımı (ilan fiyatı yönü
-↔ gerçekleşen fiyat yönü) emlak literatüründe test edilmiş ve kırılgan
-bulunmuştur: pazarlık marjı (sale-to-list oranı) **pro-döngüseldir** — piyasa
-yükselirken daralır, düşerken genişler; dolayısıyla ilan-tabanlı sinyal tam da
-döngü **dönüm noktalarında** sistematik sapar (Anenberg & Laufer 2017, REStat;
-Anenberg 2016; Han & Strange 2016; Carrillo vd. 2015). Araç piyasasına transfer
-güçlü bir analojidir ama doğrudan ölçülmemiştir — bu, projenin en önemli açık
-denemesidir.
+**Kritik varsayım derinlemesine test edildi [N13].** Registrinin #1 maddesi ve
+Faz 8'in ana bulgusu, K8+N9 varsayımını (ilan-yönü ↔ işlem-yönü) konut piyasası
+literatüründen doğrudan nicel kanıtla riskli ilan eder: satış/ilan fiyat oranı
+(sale-to-list ratio) piyasa döngüsüyle korelasyonludur ve fiyat yükselirken
+daralır, düşerken genişler (Anenberg & Laufer 2017); satıcılar ilanı bayat
+emsallere çapalayıp yapışkan tutar, bu da düşüş döneminde marjı mekanik olarak
+büyütür — "crossing pattern" (Anenberg 2016); boom'da liste-altı satış azalır,
+liste-üstü/liste-eşiti satış artar (Han & Strange 2016); satıcı pazarlık gücünü
+temsil eden bir "tightness" değişkeni dışlandığında RMSE bazı ufuklarda %30–35
+kötüleşir (Carrillo vd. 2015). Bu literatür ikinci el araç piyasasına doğrudan
+ölçülmemiş ama güçlü bir analojidir.
 
-**Zorunlu dolaylı test paketi:** (a) days-on-market medyanı + fiyat-düşürme
-oranı + conversion oranından oluşan proxy paneli — ilan-yön sinyaliyle ters
-hareket sapma alarmıdır; (b) bağımsız işlem-tabanlı serilerle (TÜİK, BETAM)
-periyodik yönsel-uyum ölçümü; (c) rejim-koşullu tutarlılık testi (yükseliş/düşüş
-dilimleri ayrı ayrı). Proxy verisi çeyreğin 1–2. ayından alınır (3. ay
-forward-looking gürültü ekler; Trojanek vd. 2025).
+**Somut test tasarımı [N13'ün detayı, Faz 8 §2.1]:** (a) DOM medyanı +
+fiyat-düşürme oranı + satış-dönüşüm (conversion) oranından oluşan bir proxy
+paneli aylık izlenir — bu üç seri ilan-yön sinyaliyle **ters** hareket ederse
+sapma alarmı verilir; Trojanek vd. (2025) ilan-endekslerinin işlem-endekslerini
+1–2 ay önden haber verdiğini ama üçüncü-ay verisinin "forward-looking noise"
+eklediğini gösterir, bu yüzden proxy verisi çeyreğin ilk-ikinci ayından
+alınmalıdır. (b) Bağımsız işlem-tabanlı kamu serileriyle (TÜİK, BETAM/sahibindex)
+periyodik yönsel-uyum (directional agreement) ölçümü — uyum eşiğin altına
+düşerse sinyal geçersiz sayılır. (c) Rejim-koşullu tutarlılık testi
+(yükseliş/düşüş dilimleri ayrı ayrı). Kalıcı çözüm (Heckman-tipi seçim
+düzeltmesi veya sale-to-list oranını durum değişkeni olarak modele katmak)
+Faz 4'ün alanı olarak işaretlenmiştir; Faz 8 yalnızca izleme/test tasarımını
+dayatır — yeni metodoloji önermez.
 
-**Beş yüksek×yüksek risk** (Faz 8 registrisinden; N13'te özetlenen): (1) K8
-ilan-yönü sapması, (4) gizli leakage, (5) naif baseline'ı yenememenin
-gizlenmesi, (6) çoklu-test şişmesi, (9) kur/ÖTV/arz şokunda rejim çöküşü.
-Registrinin tamamı ve diğer riskler için Faz 8 dökümanına bakılmalıdır.
+**Registrinin diğer kategorileri (tam liste Faz 8 §9'da; burada yalnızca
+fazlar-arası bağlantı noktaları özetlenir):**
+- *Veri/hedef kaynaklı* (#2–5): seçilim yanlılığı — yalnızca satılan ilanlar
+  gözlemlenir, forecast hatası hafife alınır (Heckman 1979; art-auction
+  selection literatürü); **kompozisyon (mix) kayması, yani N1'in kendisi**
+  — Faz 5'in hedonik düzeltmesi (N10) tasarım-zamanı bir çözümdür, Faz 8 bunu
+  runtime'da izlenmesi gereken bir risk olarak yeniden değerlendirir (segment
+  PSI kayması + ham-vs-düzeltilmiş seri diverjansı erken-uyarı işaretidir — bkz.
+  C1 zinciri); ölü/tekrarlı ilanlar (duplicate-leakage, Kapoor & Narayanan
+  taksonomisi); ilan-içi fiyat-düşürme davranışının hedefi kirletmesi (Merlo &
+  Ortalo-Magné 2004).
+- *Etiketleme kaynaklı* (#7–8): "stable" bandının anlamsızlaşması (çok geniş →
+  çoğunluk sınıfı, çok dar → gürültü) ve threshold/ufuk keyfîliği — ikisi de N3
+  boşluğunun somut sonucudur, "literatürde net değil" işaretlidir; K2'nin
+  oynaklık-uyarlamalı bant kararı tam da bu riski azaltmak için seçilmiştir.
+- *Rejim/non-stationarity kaynaklı* (#9–11): **kur/ÖTV/arz şoklarında çöküş**
+  — N2'nin somutlaşması; Hendry'nin forecast-failure literatürü "location
+  shift"leri sistematik başarısızlığın başlıca kaynağı sayar, 24 Temmuz 2025
+  ÖTV düzenlemesi (7555 sayılı değişiklik) somut/güncel örnektir; eğitim
+  döneminin gelecek rejimi temsil etmemesi ("Who Saw It Coming?" 2026 —
+  nadir-ama-önemli rejimleri az-ağırlıklayan örneklem normal-rejim
+  parametrelerine yakınsar); sessiz/saf konsept kayması — **denetimsiz
+  proxy'lerle (PSI vb.) hiç yakalanamaz**, yalnızca periyodik etiketli denetim
+  + champion/challenger mimarisi yakalar.
+- *Model kaynaklı* (#12–14): az-gözlemde overfitting (N11'in "basit/düzenlileş-
+  tirilmiş model" tercihini destekler); yanlış kalibrasyon (N11'in
+  Platt/temperature kararının runtime karşılığı); ordinal yapının ihmali
+  (N11'in ordinal-ileri-deneme önerisiyle aynı eksen — bkz. C3 zinciri).
+- *Değerlendirme kaynaklı* (#4, #6, #17 + destek maddeler): **gizli leakage**
+  ve **naif baseline'ı yenememenin gizlenmesi** iki yüksek×yüksek maddedir;
+  ayrıca çoklu-test şişmesi ve güven-aralıksız raporlama — dördü de N7/N12'nin
+  protokolüyle doğrudan örtüşür (bkz. C3 zinciri).
+- *Dağıtım/operasyon kaynaklı* (#15–16 + bakım maddesi): vintage/real-time
+  revizyon — N12'nin as-of-date kuralının **canlı ortamdaki** karşılığı
+  (Croushore & Stark; Koenig vd. 2003); training-serving skew (feature'ın
+  tahmin anında mevcut olmaması); izlenmeyen drift/bakım ihmali.
+- *Yorumlama/karar kaynaklı* (#17–18): istatistiksel sinyalin ekonomik/karar
+  faydasına çevrilememesi (işlem maliyeti sonrası edge kaybolabilir — MPANF
+  2024); agrega (piyasa-geneli) sinyalin yanlış biçimde birim-düzey bir karara
+  bağlanması — ikisi de "literatürde net değil" veya proje-özgü karar
+  bağlamına dayanır.
 
-**Beş önceden-ilan-edilen terk/yeniden-çerçeveleme eşiği (bağlayıcı):**
+**Beş yüksek×yüksek risk (registri #1, #4, #5, #6, #9 — Faz 8'de kalın
+işaretli satırlar):** (1) K8 ilan-yönü sapması, (4) gizli leakage, (5) naif
+baseline'ı yenememenin gizlenmesi, (6) çoklu-test şişmesi, (9) kur/ÖTV/arz
+şokunda rejim çöküşü. Bu beşi, projenin en fazla dikkat/kaynak ayırması
+gereken noktalardır; geri kalan 15 madde orta önceliklidir ama registriden
+çıkarılmamıştır (Faz 8, Bölüm 9'daki tam tabloya bakınız).
+
+**Beş önceden-ilan-edilen terk/yeniden-çerçeveleme eşiği (bağlayıcı — Faz 8
+§10 = N13):**
 1. Model, dokunulmamış holdout'ta iki naif baseline'ı (persistence + çoğunluk)
    güven aralığı örtüşmeden yenemiyorsa → sinyal yok.
 2. İlan-yön sinyalinin işlem serisiyle yönsel uyumu şans üstü değilse veya
@@ -323,9 +394,15 @@ Registrinin tamamı ve diğer riskler için Faz 8 dökümanına bakılmalıdır.
 5. Leakage düzeltmesi sonrası performans naif seviyeye düşüyorsa → önceki
    sonuçlar artefakttı; terk.
 
+Faz 8, bu beş eşiğin "iyimserlik değil dürüstlük gereği" olduğunu vurgular:
+negatif sonucun gizlenmesi (publication/positive-outcome bias) bilimsel ve
+operasyonel bir hatadır ("Embracing Negative Results in Machine Learning",
+ICML 2024).
+
 **Yeniden-çerçeveleme seçeneği:** hedefi işlem-vekili olmaktan çıkarıp doğrudan
 ilan-davranışı (DOM / fiyat-düşürme) tahminine kaydırmak; veya "sinyal yok"u
-dürüst negatif-sonuç raporu olarak yayımlamak [N6 ile tutarlı].
+dürüst negatif-sonuç raporu olarak yayımlamak [N6 ile tutarlı]. Detay ve tam
+20 maddelik registri: `08_basarisizlik_modlari_tuzaklar.md`.
 
 ---
 
@@ -334,38 +411,54 @@ dürüst negatif-sonuç raporu olarak yayımlamak [N6 ile tutarlı].
 Aşağıdaki dört zincir, fazların birbirinden bağımsız dökümanlar değil, tek bir
 karar sisteminin parçaları olduğunu gösterir.
 
-**C1. Kompozisyon zinciri: N1 (Faz 2) → N10 (Faz 5) → etiket güvenilirliği.**
+**C1. Kompozisyon zinciri: N1 (Faz 2) → N10 (Faz 5) → Faz 8 §2.2 (runtime izleme).**
 Faz 2, kamuya açık endekslerin mix-düzeltmesiz olduğunu teşhis etti (problem).
 Faz 5 bunu reçeteye bağladı: hedonik imputation birincil, sabit-ağırlık endeksi
-doğrulama, reziduel bonus feature (çözüm). Sonuç: yön etiketinin kendisi bu
-zincire bağımlıdır — kompozisyon düzeltmesi yapılmadan üretilen her sonuç sahte
-sinyal riski taşır. Zincirin ucu Faz 7'nin falsifikasyon geçidine bağlanır:
-etiket sahte sinyal taşıyorsa null testi bunu yakalamalıdır.
+doğrulama, reziduel bonus feature (tasarım-zamanı çözüm). Faz 8 bu zincire üçüncü
+bir halka ekler: hedonik düzeltme kurulduktan sonra bile kompozisyon kayması bir
+**runtime riski** olarak registriye (#3) girer — segment/yaş/km dağılımındaki PSI
+kayması ve ham-vs-düzeltilmiş seri diverjansı erken-uyarı işaretidir. Yani "N1
+çözüldü" statik bir gerçek değil, sürekli izlenmesi gereken bir taahhüttür.
+Zincirin ucu Faz 7'nin falsifikasyon geçidine de bağlanır: etiket sahte sinyal
+taşıyorsa null testi bunu yakalamalıdır.
 
 **C2. Varsayım zinciri: K8 (Faz 2) → N9 (Faz 4) → N13 (Faz 8).**
 Faz 2 veri gerçekliği nedeniyle hedefi ilan fiyatı olarak sabitledi. Faz 4 bunun
 örtük varsayımını formüle etti (ilan-yönü ↔ işlem-yönü) ve literatürde
 ölçülmediğini belgeledi. Faz 8 bu varsayımı emlak literatürünün hakemli
-kanıtıyla "riskli" olarak derecelendirdi, dolaylı test paketini zorunlu kıldı ve
-2 numaralı terk eşiğine bağladı. Yani projenin en kritik riski, keşfedilmiş ve
+kanıtıyla "yüksek olasılık × yüksek etki" olarak derecelendirdi (registri #1),
+somut bir üç parçalı dolaylı test paketi (proxy panel + yönsel-uyum ölçümü +
+rejim-koşullu tutarlılık testi) tasarladı ve 2 numaralı terk eşiğine bağladı.
+Yani projenin en kritik riski, keşfedilmiş, derecelendirilmiş ve
 sigortalanmıştır — göz ardı edilmemiştir.
 
-**C3. Dengesizlik zinciri: N4 (Faz 3) → N11 (Faz 6) → N12 (Faz 7).**
+**C3. Dengesizlik ve model-güvenilirliği zinciri: N4 (Faz 3) → N11 (Faz 6) →
+N12 (Faz 7) → Faz 8 §5/§6 (risk olarak kapanış).**
 Faz 3, SMOTE/resampling'i hakemli kanıtla yasakladı ve class weighting →
 threshold-moving → kalibrasyon sırasını koydu. Faz 6 bu sırayı model kararına
-gömdü (class-weighted GBM; az-gözlemde Platt/temperature, izotonik değil). Faz 7
+gömdü (class-weighted GBM; az-gözlemde Platt/temperature, izotonik değil) ve
+ordinal yapıyı (up<stable<down) ileri deneme olarak işaretledi. Faz 7,
 kalibrasyon ve threshold kararlarının değerlendirmesini protokole bağladı
 (per-class raporlama, olasılık-tabanlı karar eşiği için kalibrasyon ön koşulu).
-SMOTE karşı-bulgusu zincir boyunca işaretli kaldı; ampirik test kapısı açıktır.
+Faz 8 zinciri iki yönden kapatır: (a) "yanlış kalibrasyon" (registri #13) ve
+"ordinal yapının ihmali" (#14) birer izlenecek risk olarak kayda geçer; (b)
+"gizli leakage" (#4) ve "naif baseline'ı yenememenin gizlenmesi" (#5) — N7/N12
+protokolünün tam da önlemeye çalıştığı iki yüksek×yüksek risktir. SMOTE
+karşı-bulgusu zincir boyunca işaretli kaldı; ampirik test kapısı açıktır.
 
-**C4. Rejim zinciri: N2 (Faz 2) → N8 (Faz 3) → N11 (Faz 6) → N12 (Faz 7).**
+**C4. Rejim zinciri: N2 (Faz 2) → N8 (Faz 3) → N11 (Faz 6) → N12 (Faz 7) →
+N13 (Faz 8, registri #9).**
 Faz 2, arz değişkeninin rejime bağlı çift yönlü olduğunu buldu. Faz 3, rejim
 izlemenin aylık ufukta algoritmik değil dışsal olay-tabanlı olması gerektiğini
 ekledi. Faz 6, rejim değişkenlerini latent model yerine gözlemlenebilir
 öznitelik olarak modele soktu (GBM etkileşimleri + açık etkileşim feature'ları).
 Faz 7, şok takvimini önceden sabitleyip rejim-ayrık MCC raporlamasını zorunlu
-kıldı. Faz 8'in 9 numaralı yüksek riski (şokta rejim çöküşü) ve 3 numaralı terk
-eşiği (tek-rejim performansı) bu zincirin denetim ucudur.
+kıldı. Faz 8, zincirin son halkasını ekler: bu riski somut ve **güncel** bir
+örnekle (24 Temmuz 2025 ÖTV düzenlemesi) derecelendirir (Yüksek×Yüksek, registri
+#9), Hendry'nin "location shift" forecast-failure çerçevesini bağlar ve
+azaltıcı önlem olarak intercept-correction/rejim kuklası + hızlı yeniden-eğitim
++ şok-dönemi ayrı raporlamayı önerir. 3 numaralı terk eşiği (tek-rejim
+performansı) bu zincirin nihai denetim noktasıdır.
 
 ---
 
@@ -378,11 +471,19 @@ bölümlerinden derlenmiştir; sentez bunları çözmez, görünür kılar.
 - İlan-tabanlı, düşük frekanslı piyasalar için yön etiketleme literatürü yoktur
   [N3]; tüm etiket tasarımı projeye özgü deneyle doğrulanacaktır.
 - Aynı veri/model üzerinde temiz bir 2-sınıf vs 3-sınıf F1 kıyaslaması literatürde
-  yoktur; stable bandının optimal genişliği için önceden belirlenmiş değer yoktur.
+  yoktur; stable bandının optimal genişliği için önceden belirlenmiş değer yoktur
+  (Faz 1, Faz 8 §11 bu belirsizliği ayrıca risk olarak da tekrarlar).
+- Threshold/ufuk seçiminin optimal kuralı literatürde net değildir — N3'ün
+  doğrudan uzantısıdır (Faz 8 §11).
 - İlan-endeksi yönü ile gerçekleşen-fiyat yönünün örtüşme derecesi ölçülmemiştir
-  (Faz 4; Faz 8'in dolaylı test paketi tam da bunun için vardır).
+  (Faz 4). **Türkiye'ye özgü olarak:** sale-to-list marjının döngüsel
+  davranışının nicel büyüklüğü de ölçülmemiştir — konut literatüründen güçlü
+  analoji var (Anenberg & Laufer 2017; Trojanek vd. 2025: ilan-endeksleri
+  işlem-endekslerini 1–2 ay önden gösteriyor) ama Türkiye araç piyasası için
+  doğrudan yayımlanmış bir ölçüm yok; bu, Faz 8'in dolaylı proxy test paketiyle
+  projede ölçülecektir.
 - Hangi agregasyon düzeyinin (marka/segment/piyasa) yön açısından en öngörülebilir
-  olduğu literatürde test edilmemiştir.
+  olduğu literatürde test edilmemiştir (Faz 4).
 
 **Domain dinamikleri (Faz 2):**
 - Kur geçişkenliğinin ikinci el araç özelindeki nicel lag'i ve büyüklüğü hakemli
@@ -417,6 +518,12 @@ bölümlerinden derlenmiştir; sentez bunları çözmez, görünür kılar.
   PT testinin 3-sınıf/küçük-N güç davranışı az çalışılmıştır; CPCV için minimum
   gözlem eşiği kanıta değil pratiğe dayanır.
 
+**Karar/kullanım katmanı (Faz 8):**
+- Yön sinyalinin hangi somut iş kararına (fiyatlama, envanter, alım zamanlaması)
+  eşleneceği proje-özgüdür; literatürde net değildir — sinyalin kapsamı
+  (agrega/piyasa-geneli) ile kararın kapsamı (birim/bireysel) arasındaki uyum
+  ayrıca belgelenmelidir (Faz 8 §8.2).
+
 **İşaretli çelişkiler (düzleştirilmedi):**
 - SMOTE hasarının büyüklüğü: klinik literatür "kaçının" vs tree-ensemble
   çalışması "küçük, rekalibre edilir" (Faz 3) → ampirik test.
@@ -446,9 +553,10 @@ de); Cleveland Fed 2021-17 (çip krizi).
 
 **Finansal ML metodolojisi (Faz 3, Faz 7):** van den Goorbergh vd. 2022 (JAMIA)
 [N4'ün kaynağı]; Chicco & Jurman 2020 (BMC Genomics) [N5]; Kapoor & Narayanan
-2023 (Patterns); Harvey, Liu & Zhu 2016 (RFS); Bailey & López de Prado 2014
-(Deflated Sharpe); Bailey, Borwein, López de Prado & Zhu 2014 (MinBTL); Lo 2004
-(AMH); Bergmeir & Benítez 2012, Bergmeir vd. 2018 (zaman serisi CV).
+2023 (Patterns) [ayrıca Faz 8'in gizli-leakage riskinin (#4) temel kaynağı];
+Harvey, Liu & Zhu 2016 (RFS); Bailey & López de Prado 2014 (Deflated Sharpe);
+Bailey, Borwein, López de Prado & Zhu 2014 (MinBTL); Lo 2004 (AMH); Bergmeir &
+Benítez 2012, Bergmeir vd. 2018 (zaman serisi CV).
 
 **Araç fiyat literatürü (Faz 4):** Rosen 1974; Lessmann & Voß 2017 (IJF); Dress
 vd. 2018 (asimetrik maliyet); Rashed vd. 2019 (ECML); Storchmann 2004; Schloter
@@ -461,16 +569,24 @@ cars metodolojisi; Micci-Barreca 2001 (target encoding); Prokhorenkova vd. 2018
 **Model (Faz 6):** Grinsztajn vd. 2022; McElfresh vd. 2023; Shwartz-Ziv & Armon
 2022; Montero-Manso & Hyndman 2021; Makridakis vd. 2022 (M5); Frank & Hall 2001
 (ordinal); Hollmann vd. 2025 (TabPFN, Nature); Niculescu-Mizil & Caruana 2005
-(kalibrasyon); Mukhoti vd. 2020 (focal loss).
+(kalibrasyon) [Faz 8'de ensemble aşırı-güven riskinin de kaynağı]; Mukhoti vd.
+2020 (focal loss).
 
 **Protokol (Faz 7):** Gorodkin 2004 (çok-sınıflı MCC); Pesaran & Timmermann
 1992/2009; Blaskowitz & Herwartz 2014; Ojala & Garriga 2010 (permütasyon testi);
 Künsch 1989 / Politis & Romano (blok-bootstrap); Vabalas vd. 2019; Cawley &
 Talbot 2010; Fabozzi & López de Prado 2018; Arnott, Harvey & Markowitz 2019.
 
-**Kritik varsayım — emlak analojisi (Faz 8 / N13):** Anenberg & Laufer 2017
-(REStat); Anenberg 2016; Han & Strange 2016; Carrillo vd. 2015; Trojanek vd.
-2025.
+**Kritik varsayım ve kırmızı-takım (Faz 8 / N13):** Anenberg & Laufer 2017
+(REStat 99(4):722-734); Anenberg 2016 (IER 57(4)); Han & Strange 2016 (JUE 93);
+Carrillo, de Wit & Larson 2015 (Real Estate Economics 43(3)); Trojanek vd. 2025
+(CAMA WP 2025-45); Merlo & Ortalo-Magné 2004 (seçilim/fiyat-düşürme davranışı);
+Heckman 1979 (seçilim yanlılığı düzeltmesi); Hendry — forecast-failure /
+location-shift literatürü; "Who Saw It Coming? Historical Experience and the
+2021 Inflation Forecast Failure" (2026, arXiv); NCBI Bookshelf overfitting
+bölümü; Flach 2023 (kalibrasyon survey'i); "Embracing Negative Results in
+Machine Learning" (ICML 2024, arXiv:2406.03980) [terk kriterlerinin dürüstlük
+gerekçesi].
 
 ---
 

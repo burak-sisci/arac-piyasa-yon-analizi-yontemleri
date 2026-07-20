@@ -66,7 +66,12 @@ gibi yardımcı işler için yazılır.
    (repo `git config user.name` / `user.email` ayarı ile). Commit mesajları
    Türkçe ve açıklayıcı olur: `faz-03: feature engineering taraması eklendi` gibi.
 6. Belirsizlik varsa varsayım yapıp ilerleme; proje sahibine soru sor.
-7. `README.md` içindeki "Durum" listesi (8 faz + sentez + sunum, `docs/00_master_plan.md`
-   Bölüm 1'deki faz adlarıyla birebir) her commit'te son duruma göre güncellenir:
-   tamamlanan/eklenen faz `[x]` işaretlenir. Bu, her faz commit'inin bir parçasıdır,
+7. `README.md` içindeki "Durum" listesi (8 faz + sentez + sunum,
+   `docs/00_master_plan_literatur_taramasi.md` Bölüm 1'deki faz adlarıyla birebir)
+   her commit'te son duruma göre güncellenir: tamamlanan/eklenen faz `[x]`
+   işaretlenir; bir dökümanın `durum` alanı `taslak`'a dönerse (ör. revizyon)
+   README'deki işaret de geri alınır. Bu, her faz commit'inin bir parçasıdır,
    ayrı bir görev değildir.
+8. Proje sahibi commit + push işlemini önceden onaylamıştır: değişiklikler
+   tamamlandıkça (ayrı bir onay beklemeden) mantıksal commit'lere bölünüp
+   `origin/main`'e push edilir. Bu onay geri alınana kadar geçerlidir.
