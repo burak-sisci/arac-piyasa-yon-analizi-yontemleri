@@ -1,99 +1,113 @@
 ROL VE BAĞLAM
 
-Sen, bir araç piyasası fiyat yönü tahmini projesi için örnek (MVP) veri seti
-kuran bir veri mühendisisin. Görev: kamuya açık kaynaklardan, aylık frekansta,
-küçük ama uçtan uca çalışan bir zaman serisi veri seti üretmek. Bu, geliştirici
-ekibin şirket içi gerçek veriye geçmeden önce pipeline'ı ve modelleme mimarisini
-deneyeceği bir prototiptir.
+Sen, araç piyasası fiyat yönü tahmini projesinin repo yöneticisi ve veri
+mühendisisin. Görev: kamuya açık kaynaklardan, 2025 yılı için 12 aylık (Ocak–
+Aralık 2025) örnek bir MVP veri seti çekmek, temizlemek, birleştirmek ve
+commit'lemek. Bu, pipeline'ı ve as-of date mimarisini test etmek için bir
+PROTOTİPTİR; model eğitmek için değil (12 gözlem eğitim için yetersizdir, bunu
+kabul ediyoruz).
 
-PROJENİN BAĞLAYICI KISITLARI (bunlara uy):
-- HEDEF: İkinci el araç ilan (asking) fiyatının aylık YÖNÜ. İşlem fiyatı değil,
-  ilan fiyatı. Türkiye'de kamuya açık tüm ikinci el fiyat serileri ilan
-  fiyatıdır; bu bilinçli bir tercihtir.
-- YALNIZCA KAMUYA AÇIK KAYNAKLAR. Hiçbir şirket içi/lisanslı/ücretli-kapalı veri
-  kullanma. Login/ödeme duvarı arkasındaki içeriğe erişmeye çalışma.
-- AS-OF DATE DİSİPLİNİ: Her değişkenin YALNIZCA yayımlanmış geçmiş değeri
-  kullanılır. Makro verilerde yayım gecikmesi vardır (ör. TÜFE ayı biter, birkaç
-  gün/hafta sonra açıklanır). Veri setine bir "referans ayı" ve mümkünse bir
-  "yayım tarihi" sütunu ekle; ileride sızıntı önlemek için bu ayrım kritik.
-- Bu görev VERİ ÇEKME + TABLO KURMA ile sınırlıdır. Model eğitme, tahmin yapma
-  veya feature engineering YAPMA (onlar sonraki aşama). Yalnızca ham + hafif
-  düzenlenmiş veriyi topla ve birleştir.
+ÇALIŞMA İLKESİ — AŞAMALI VE EKSİKSİZ:
+Tek seferde her şeyi çekmeye çalışma. Değişkenleri SIRAYLA, biri tamamen
+bitip doğrulanmadan diğerine geçmeden çek. Her aşamadan sonra DUR, çektiğin
+veriyi bana özetle ve devam onayı iste. Hız değil, eksiksizlik ve doğruluk esas.
 
-MVP KAPSAMI (yalnızca bu üç çekirdek değişken — az ama çalışan):
-1. USD/TRY döviz kuru (en baskın fiyat sürücüsü)
-2. Bir PROXY ikinci el araç fiyat serisi (hedef değişkenin yer tutucusu)
-3. TÜFE / enflasyon (reel-nominal dönüşüm ve deflatör için zorunlu)
+PROJENİN BAĞLAYICI KISITLARI:
+- HEDEF: İkinci el araç ilan (asking) fiyatının aylık yönü. İşlem fiyatı değil.
+- YALNIZCA KAMUYA AÇIK KAYNAKLAR. Şirket içi/lisanslı/ödeme-duvarı veri yok.
+- AS-OF DATE: Her makro değişkenin yayım gecikmesi vardır (ör. Aralık TÜFE'si
+  Ocak başında açıklanır). Tabloya "referans_ayi" ve mümkünse "yayim_tarihi"
+  sütunu ekle. Bu, ileride sızıntı önlemek için kritik.
+- Veri dosyaları data/ altına yazılır ama .gitignore gereği Git-DIŞIDIR; yalnızca
+  kod, veri sözlüğü ve raporlar versiyonlanır.
+- Bu görev VERİ ÇEKME + TABLO KURMA ile sınırlı. Model eğitme, feature türetme,
+  tahmin YOK (sonraki aşama).
 
-ZAMAN KAPSAMI: Önce son 12–24 ay, aylık frekans. Kod, kapsamı kolayca
-genişletebilecek biçimde parametrik yazılsın (başlangıç/bitiş tarihi değişkeni).
+ZAMAN KAPSAMI: 2025-01'den 2025-12'ye, aylık. Kod parametrik olsun (başlangıç/
+bitiş ayı değişken) — ileride genişletmek kolay olsun.
 
 KAYNAK ÖNCELİK KURALI (her değişken için SIRAYLA dene, ilk çalışanı kullan):
-  (A) Resmi API (yapılandırılmış, en güvenilir) →
-  (B) Resmi açık indirme (CSV/Excel/JSON dosyası) →
-  (C) Resmi sayfadan HTML tablo okuma (scrape) →
-  (D) İkincil ama güvenilir kaynak (ör. veri toplayıcı) →
-  (E) Son çare: manuel giriş için şablon üret ve kullanıcıdan iste.
-Her değişken için hangi seviyeye kadar inildiğini ve nedenini raporla.
+  (A) Resmi API → (B) Resmi açık indirme (CSV/Excel/JSON) → (C) Resmi sayfadan
+  HTML/PDF tablo çıkarımı → (D) İkincil güvenilir kaynak → (E) Son çare: manuel
+  giriş şablonu üret, benden iste. Hangi seviyeye inildiğini her değişken için
+  raporla.
 
-DEĞİŞKEN BAZLI KAYNAK REHBERİ (başlangıç noktası; erişilemezse bir sonrakine geç):
+======================================================================
+AŞAMA 1 — USD/TRY (en temiz kaynak, önce bununla pipeline'ı kur)
+======================================================================
+- Kaynak önceliği A: TCMB EVDS API. API anahtarı gerekir — anahtarı KODA GÖMME;
+  ortam değişkeni (ör. EVDS_API_KEY) veya benden iste. Anahtarı nereden alacağımı
+  bilmiyorsam söyle (TCMB EVDS sitesinden ücretsiz hesap).
+- Seri: USD/TRY. Aylık düzeye indirirken HEM ay sonu değeri HEM ay ortalamasını
+  ayrı sütun olarak tut.
+- Çıktı: data/raw/usdtry_2025_raw.* (ham) + pipeline için ara tablo.
+- Aşama sonunda: 12 ayın tamamı geldi mi, eksik ay var mı, hangi kaynak
+  seviyesi kullanıldı — özetle ve DUR, onay iste.
 
-1) USD/TRY:
-   - Öncelik A: TCMB EVDS (Elektronik Veri Dağıtım Sistemi). Resmi API'si var;
-     API anahtarı gerekebilir — gerekiyorsa kullanıcıya anahtarı nereden alacağını
-     söyle ve anahtarı prompta gömme, kullanıcıdan iste.
-   - Öncelik B/C: EVDS web arayüzünden CSV/Excel indirme, ya da TCMB günlük kur
-     sayfası.
-   - Aylık seriye çevirirken: ay sonu değeri VE ay ortalaması ayrı sütun olarak
-     tut (hangisinin kullanılacağı sonra kararlaştırılır).
+======================================================================
+AŞAMA 2 — TÜFE / Enflasyon (aynı sistemden, kolay)
+======================================================================
+- Kaynak önceliği A: TÜİK API veya TCMB EVDS üzerinden TÜFE serisi.
+- Sütunlar: tufe_endeks (baz), tufe_aylik_degisim (%). yayim_tarihi ekle
+  (TÜFE ilgili ayı takip eden ayın başında açıklanır — as-of date için önemli).
+- Çıktı: data/raw/tufe_2025_raw.*
+- Aşama sonunda özetle ve DUR, onay iste.
 
-2) PROXY FİYAT SERİSİ:
-   - Öncelik: BETAM "sahibindex Otomobil Piyasası Görünümü" aylık raporları
-     (kamuya açık, aylık, ilan-tabanlı). Rapor PDF/sayfa formatında olabilir;
-     yayımlanan aylık talep endeksi / fiyat göstergesi / ilan sayısı gibi
-     serileri çıkar.
-   - Alternatif: arabam.com kamuya açık aylık fiyat endeksi bültenleri.
-   - UYARI (rapora yaz): Bu seriler mix/kompozisyon düzeltmesizdir; ham ortalama
-     ilan fiyatıdır. MVP için "yer tutucu hedef" olarak kullanılır, nihai hedef
-     değildir. Bu sınırı veri sözlüğünde açıkça belirt.
-   - Bu kaynaklar makine-okunur API sunmayabilir; PDF/HTML'den yapılandırılmış
-     çıkarım gerekebilir. Çıkardığın her sayının kaynağını (rapor tarihi + sayfa)
-     kaydet.
+======================================================================
+AŞAMA 3 — PROXY FİYAT SERİSİ (en zor; hedefin yer-tutucusu)
+======================================================================
+- Kaynak: BETAM "sahibindex Otomobil Piyasası Görünümü" 2025 aylık raporları
+  (kamuya açık, aylık, ilan-tabanlı). Alternatif: arabam.com kamuya açık aylık
+  fiyat endeksi bültenleri.
+- Bu kaynaklar makine-okunur API sunmaz; PDF/HTML'den yapılandırılmış çıkarım
+  gerekir. Her aydan çıkarabildiğin serileri al: talep endeksi, ortalama/medyan
+  ilan fiyatı (cari ve varsa reel), ilan sayısı, satılan/satılık oranı, ilanda
+  kalma süresi (days-on-market).
+- Çıkardığın HER sayının kaynağını kaydet (rapor tarihi + hangi rapor/sayfa).
+- KRİTİK UYARI (veri sözlüğüne yaz): Bu seriler mix/kompozisyon düzeltmesizdir;
+  ham ortalama ilan fiyatıdır (karar N1). MVP'de yer-tutucu hedef olarak
+  kullanılır, NİHAİ HEDEF DEĞİLDİR. Nihai hedef ileride hedonik düzeltmeyle
+  (N10) üretilecek.
+- Bu aşamada eksik ay olması muhtemel (rapor yayımlanmamış olabilir). Eksikse
+  UYDURMA; "eksik" olarak işaretle ve raporla.
+- Aşama sonunda özetle ve DUR, onay iste.
 
-3) TÜFE:
-   - Öncelik A: TÜİK veri portalı / API, ya da TCMB EVDS üzerinden TÜFE serisi.
-   - Aylık endeks (2003=100 veya güncel baz) + aylık yüzde değişim sütunları.
-
-ÇIKTI (üret ve kaydet):
-1. Ham veriler: her kaynaktan çekilen ham hali ayrı dosya (raw/ klasörü).
-2. Birleşik tablo: aylık, tek satır = tek ay; sütunlar = referans_ayi,
-   usdtry_aysonu, usdtry_ortalama, proxy_fiyat, proxy_ilan_sayisi (varsa),
-   tufe_endeks, tufe_degisim, (mümkünse her makro için yayim_tarihi).
-   CSV ve tercihen bir de Excel olarak kaydet.
-3. VERİ SÖZLÜĞÜ (data dictionary): her sütun için ad, birim, kaynak, kaynak
-   seviyesi (A–E), frekans, yayım gecikmesi notu, bilinen sınırlar. Ayrı bir
-   markdown dosyası.
-4. ÇEKME RAPORU: her değişken için hangi kaynak seviyesine kadar inildiği, ne
-   çalıştı/çalışmadı, eksik aylar, kalite uyarıları.
+======================================================================
+AŞAMA 4 — BİRLEŞTİRME VE BELGELEME
+======================================================================
+- Üç kaynağı "referans_ayi" (YYYY-MM) anahtarıyla birleştir. Tek satır = tek ay.
+  Sütunlar: referans_ayi, usdtry_aysonu, usdtry_ortalama, tufe_endeks,
+  tufe_aylik_degisim, proxy_fiyat, proxy_ilan_sayisi, proxy_dom (varsa),
+  ve ilgili yayim_tarihi sütunları.
+- Çıktı: data/processed/mvp_2025_birlesik.csv (ve tercihen .xlsx).
+- VERİ SÖZLÜĞÜ üret: data/processed/veri_sozlugu.md — her sütun için ad, birim,
+  kaynak, kaynak seviyesi (A–E), frekans, yayım gecikmesi, bilinen sınırlar
+  (özellikle proxy fiyatın mix-düzeltmesiz olduğu).
+- ÇEKME RAPORU üret: data/processed/cekme_raporu.md — her değişken hangi
+  seviyeden geldi, ne çalıştı/çalışmadı, eksik aylar, kalite uyarıları.
 
 KOD KALİTESİ:
-- Parametrik (tarih aralığı değişkeni), tekrar çalıştırılabilir, yorumlu.
-- Her kaynak için ayrı fonksiyon; biri başarısızsa diğerlerini bloklamasın
-  (graceful fallback).
-- Ağ hatası, boş yanıt, format değişikliği gibi durumları yakala ve raporla.
-- API anahtarı / kimlik bilgisi ASLA koda gömülmez; ortam değişkeni veya
-  kullanıcı girişi olarak alınır.
-- Tarihleri ISO formatına (YYYY-MM) normalize et; birleştirmede ay anahtarını
-  kullan.
+- Her kaynak için ayrı, yorumlu fonksiyon; biri patlarsa diğerini bloklamasın.
+- Ağ hatası/boş yanıt/format değişikliğini yakala ve raporla.
+- API anahtarı/kimlik ASLA koda gömülmez.
+- Tarihler ISO (YYYY-MM); birleştirme ay anahtarıyla.
+- Scraping'de nazik ol: robots.txt'ye uy, istekler arası gecikme koy, ödeme/
+  login duvarı aşma.
+
+REPO YÖNETİMİ:
+- Kod dosyalarını mantıklı bir yere koy (ör. scripts/veri/ altında aşama başına
+  bir dosya veya tek modül). Kodları, veri sözlüğünü ve raporları commit'le.
+- data/raw ve data/processed içindeki VERİ dosyaları .gitignore gereği
+  commit'lenmez — yalnızca .gitkeep'ler durur. Kod + belgeler versiyonlanır.
+- Anlamlı Türkçe commit mesajları kullan (ör. "veri: aşama-1 USD/TRY çekimi").
+- Her aşama onaylandıktan sonra o aşamayı commit'le ve push'la (push'u kendin yap).
 
 YAPMA:
-- Login/ödeme duvarı aşma, robots.txt'yi yok sayma, agresif/hızlı scraping.
-  Nazik ol: istekler arası gecikme koy, kaynağın kullanım şartlarına uy.
-- Model eğitme, feature türetme, tahmin (sonraki aşama).
+- Tek seferde tüm aşamaları koşturma; aşama aformı bittikçe DUR ve onay iste.
+- Eksik veriyi uydurma; işaretle.
+- Model eğitme/feature türetme/tahmin.
 - Şirket içi veya lisanslı veri kullanma.
-- Eksik veriyi uydurma; eksikse "eksik" olarak işaretle ve raporla.
+- Veri dosyalarını Git'e ekleme (ilke: veri versiyonlanmaz).
 
-BİTİRİNCE: Kısa özet ver — kaç ay × kaç sütun veri toplandı, her çekirdek
-değişken hangi kaynak seviyesinden geldi, hangi boşluklar/uyarılar var, ve
-genişleme (sonraki faktörler: ODMD sıfır satış, ÖTV olayları, BETAM mikro
-sinyaller, taşıt kredisi faizi) için önerilen sıradaki adım ne.
+BAŞLANGIÇ: Önce kısa bir çalışma planı sun (hangi aşamada hangi kaynağı hangi
+sırayla deneyeceğini), sonra benim onayımla AŞAMA 1'den başla.
