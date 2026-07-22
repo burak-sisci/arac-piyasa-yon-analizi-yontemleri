@@ -75,3 +75,8 @@ gibi yardımcı işler için yazılır.
 8. Proje sahibi commit + push işlemini önceden onaylamıştır: değişiklikler
    tamamlandıkça (ayrı bir onay beklemeden) mantıksal commit'lere bölünüp
    `origin/main`'e push edilir. Bu onay geri alınana kadar geçerlidir.
+9. Token maliyeti gözetilir: fazla token harcayabilecek işlere (çok-aşamalı veri
+   çekme, geniş kapsamlı kod yazımı, çoklu API/scraping denemesi, büyük
+   yeniden-üretimler vb.) başlamadan önce proje sahibinden onay alınır. Büyük
+   görevler küçük aşamalara bölünür; her aşama bitince özet sunulup bir sonraki
+   aşama için ayrıca onay istenir — tek seferde uçtan uca koşulmaz.
