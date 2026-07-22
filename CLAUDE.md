@@ -80,3 +80,12 @@ gibi yardımcı işler için yazılır.
    yeniden-üretimler vb.) başlamadan önce proje sahibinden onay alınır. Büyük
    görevler küçük aşamalara bölünür; her aşama bitince özet sunulup bir sonraki
    aşama için ayrıca onay istenir — tek seferde uçtan uca koşulmaz.
+10. Veri mühendisliği (scripts/veri/) işi bittiğinde, ayrı bir oturumdaki proje
+    yöneticisinin (PM) denetleyebilmesi için `data/processed/pm_rapor_<asama_adi>.md`
+    dosyası üretilir ve commit'lenir (veri dosyalarından farklı olarak bu rapor
+    Git'e girer — denetim izi için). Rapor kısa, dürüst ve denetlenebilir olur;
+    şu 7 başlığı içerir: (1) Ne Yapıldı, (2) Sayısal Özet, (3) Karşılaşılan
+    Sorunlar (saklanmaz), (4) Veri Örneği (ham, ilk/son birkaç satır),
+    (5) Varsayımlar ve Kararlar (K/N kararlarına uygunluk), (6) Açık Sorular /
+    PM Onayı Gerekenler, (7) Önerilen Sonraki Adım (başlatılmaz, yalnızca önerilir).
+    Rapor oturumda özet olarak da gösterilir.
