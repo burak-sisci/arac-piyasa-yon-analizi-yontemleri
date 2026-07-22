@@ -8,6 +8,9 @@ data/processed/*
 !data/raw/.gitkeep
 !data/processed/.gitkeep
 
+# API anahtarları / gizli bilgiler — asla git'e girmez
+.env
+
 # Office/PowerPoint kilit dosyaları
 ~$*.docx
 ~$*.pptx
