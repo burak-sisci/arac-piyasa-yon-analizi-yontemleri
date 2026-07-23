@@ -8,11 +8,16 @@ DAHIL EDILEN: USD/TRY (A), TÜFE (A - 2026-01 baz degisikligi zincirleme
 yontemiyle cozuldu, bkz. genisletme_1b_tufe.py), proxy fiyat/BETAM (C+D),
 taşıt kredisi faizi + politika faizi (A), ODMD sıfır araç satışı (C),
 ÖTV event-dummy, OSD yerli uretim (A), tuketici guven endeksi + otomobil
-satinalma ihtimali (A).
+satinalma ihtimali (A), noter devir adedi (B - TÜİK resmi tablo, bkz.
+genisletme_2a_noter_devir.py), alim gucu proxy'si / brut ucret-maas endeksi
+(B - TÜİK resmi tablo, ceyreklik->aylik genisletildi, bkz.
+genisletme_2b_alim_gucu.py).
 
-DAHIL EDILMEYEN (hala BLOKLU - PM'e birakildi, bkz. PM raporlari):
-noter devir adedi (2a), alim gucu proxy'si (2b), erisilebilirlik endeksi (2c,
-2a/2b'ye bagimli).
+DAHIL EDILMEYEN (hala BLOKLU - tanimi netlesmedi, PM'e birakildi):
+erisilebilirlik endeksi (2c) - kesin formulu (ornegin "ortalama arac fiyati
+/ aylik ucret" gibi bir oran mi olacagi) PM ile netlestirilmeli; bu, raw
+veri cekme degil bir TUREV/hesaplama adimidir, o yuzden Asama 5 (etiketleme)
+tarzinda ayri bir adimda ele alinmalidir.
 
 HEDEF ETIKET: Bu script SADECE BIRLESTIRIR; etiket uretimi (Asama 5'in
 "HEDEF ETIKET" alt-basligi, k*sigma bandi vb.) ayrı bir onay/adimdir ve
@@ -59,6 +64,14 @@ def main():
 
     tuketici_guveni = pd.read_csv(RAW_DIR / "tuketici_guveni" / "tuketici_guveni_2024_bugun_aylik.csv")
 
+    noter_devir = pd.read_csv(RAW_DIR / "noter_devir" / "noter_devir_2024_bugun_aylik.csv")[
+        ["referans_ayi", "noter_devir_toplam_adet", "noter_devir_otomobil_adet"]
+    ]
+
+    alim_gucu = pd.read_csv(RAW_DIR / "alim_gucu" / "alim_gucu_2024_bugun_aylik.csv")[
+        ["referans_ayi", "brut_ucret_maas_endeksi_2021_100", "alim_gucu_ceyrek"]
+    ]
+
     birlesik = usdtry.merge(tufe, on="referans_ayi", how="outer")
     birlesik = birlesik.merge(proxy, on="referans_ayi", how="outer")
     birlesik = birlesik.merge(faizler, on="referans_ayi", how="outer")
@@ -66,6 +79,8 @@ def main():
     birlesik = birlesik.merge(otv, on="referans_ayi", how="outer")
     birlesik = birlesik.merge(osd, on="referans_ayi", how="outer")
     birlesik = birlesik.merge(tuketici_guveni, on="referans_ayi", how="outer")
+    birlesik = birlesik.merge(noter_devir, on="referans_ayi", how="outer")
+    birlesik = birlesik.merge(alim_gucu, on="referans_ayi", how="outer")
 
     birlesik = birlesik[
         (birlesik["referans_ayi"] >= HEDEF_BASLANGIC) & (birlesik["referans_ayi"] <= HEDEF_BITIS)

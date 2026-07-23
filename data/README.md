@@ -33,7 +33,9 @@ data/
 │   ├── odmd/                 sıfır araç satış adetleri (ODMD basın bültenleri)
 │   ├── otv/                  ÖTV event-dummy (Resmî Gazete/haber taraması)
 │   ├── osd/                  OSD yerli üretim, binek+kamyonet (TCMB EVDS3)
-│   └── tuketici_guveni/      tüketici güven endeksi + otomobil satın alma ihtimali (TCMB EVDS3)
+│   ├── tuketici_guveni/      tüketici güven endeksi + otomobil satın alma ihtimali (TCMB EVDS3)
+│   ├── noter_devir/          noter devir adedi, toplam+otomobil (TÜİK veri portalı)
+│   └── alim_gucu/            brüt ücret-maaş endeksi, alım gücü proxy'si (TÜİK veri portalı, çeyreklik)
 └── processed/               # birleştirilmiş / etiketlenmiş / belgelenmiş çıktılar
     ├── mvp/                  MVP (2025) birleşik + etiketli tablo
     ├── genisletme/            genişletme (2024-bugün) birleşik tablo
