@@ -27,11 +27,13 @@ genişletme) aynı düz klasörde biriktiğinde okunması zorlaşıyordu).
 data/
 ├── raw/                    # her kaynaktan çekilen ham/ara dosyalar
 │   ├── usdtry/              USD/TRY (TCMB EVDS3)
-│   ├── tufe/                 TÜFE (TCMB EVDS3)
+│   ├── tufe/                 TÜFE (TCMB EVDS3 — 2003=100 + 2025=100 zincirlenmiş)
 │   ├── proxy_fiyat/          proxy ilan fiyatı (BETAM sahibindex + arabam.com)
 │   ├── faiz/                 taşıt kredisi faizi + politika faizi (TCMB EVDS3)
 │   ├── odmd/                 sıfır araç satış adetleri (ODMD basın bültenleri)
-│   └── otv/                  ÖTV event-dummy (Resmî Gazete/haber taraması)
+│   ├── otv/                  ÖTV event-dummy (Resmî Gazete/haber taraması)
+│   ├── osd/                  OSD yerli üretim, binek+kamyonet (TCMB EVDS3)
+│   └── tuketici_guveni/      tüketici güven endeksi + otomobil satın alma ihtimali (TCMB EVDS3)
 └── processed/               # birleştirilmiş / etiketlenmiş / belgelenmiş çıktılar
     ├── mvp/                  MVP (2025) birleşik + etiketli tablo
     ├── genisletme/            genişletme (2024-bugün) birleşik tablo

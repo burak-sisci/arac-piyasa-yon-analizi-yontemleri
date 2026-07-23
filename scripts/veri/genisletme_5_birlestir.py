@@ -4,18 +4,19 @@ GENIŞLETME AŞAMA 5 — Tüm genişletilmiş serilerin birleştirilmesi, 2024-0
 Kapsam üst sınırı 2026-06'dır (proxy fiyat ve ODMD'nin kendi yapısal yayım
 gecikmesi nedeniyle - bkz. ilgili script'lerin docstring'leri).
 
-DAHIL EDILEN: USD/TRY (A), TÜFE (A, ama 2026-01'de kesiliyor - bkz. UYARI),
-proxy fiyat/BETAM (C+D), taşıt kredisi faizi + politika faizi (A),
-ODMD sıfır araç satışı (C), ÖTV event-dummy.
+DAHIL EDILEN: USD/TRY (A), TÜFE (A - 2026-01 baz degisikligi zincirleme
+yontemiyle cozuldu, bkz. genisletme_1b_tufe.py), proxy fiyat/BETAM (C+D),
+taşıt kredisi faizi + politika faizi (A), ODMD sıfır araç satışı (C),
+ÖTV event-dummy, OSD yerli uretim (A), tuketici guven endeksi + otomobil
+satinalma ihtimali (A).
 
-DAHIL EDILMEYEN (Asama 2/3'te BLOKLANDI - PM'e birakildi, bkz. PM raporlari):
-noter devir adedi, alim gucu proxy'si, erisilebilirlik endeksi, tuketici
-guveni, OSD uretim/ihracat.
+DAHIL EDILMEYEN (hala BLOKLU - PM'e birakildi, bkz. PM raporlari):
+noter devir adedi (2a), alim gucu proxy'si (2b), erisilebilirlik endeksi (2c,
+2a/2b'ye bagimli).
 
 HEDEF ETIKET: Bu script SADECE BIRLESTIRIR; etiket uretimi (Asama 5'in
 "HEDEF ETIKET" alt-basligi, k*sigma bandi vb.) ayrı bir onay/adimdir ve
-burada YAPILMADI - cunku TUFE 2026-02'den itibaren eksik oldugundan REEL
-etiket suan icin 2026-02..06 araliginda uretilemez (bkz. UYARI).
+burada YAPILMADI.
 """
 from pathlib import Path
 
@@ -54,11 +55,17 @@ def main():
 
     otv = pd.read_csv(RAW_DIR / "otv" / "otv_olaylari_2024_bugun_aylik.csv")
 
+    osd = pd.read_csv(RAW_DIR / "osd" / "osd_2024_bugun_aylik.csv")
+
+    tuketici_guveni = pd.read_csv(RAW_DIR / "tuketici_guveni" / "tuketici_guveni_2024_bugun_aylik.csv")
+
     birlesik = usdtry.merge(tufe, on="referans_ayi", how="outer")
     birlesik = birlesik.merge(proxy, on="referans_ayi", how="outer")
     birlesik = birlesik.merge(faizler, on="referans_ayi", how="outer")
     birlesik = birlesik.merge(odmd, on="referans_ayi", how="outer")
     birlesik = birlesik.merge(otv, on="referans_ayi", how="outer")
+    birlesik = birlesik.merge(osd, on="referans_ayi", how="outer")
+    birlesik = birlesik.merge(tuketici_guveni, on="referans_ayi", how="outer")
 
     birlesik = birlesik[
         (birlesik["referans_ayi"] >= HEDEF_BASLANGIC) & (birlesik["referans_ayi"] <= HEDEF_BITIS)
