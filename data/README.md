@@ -1,24 +1,52 @@
-# data/ — MVP Örnek Veri Seti
+# data/ — Araç Piyasası Fiyat Yönü Verisi
 
-Bu klasör, araç piyasası fiyat yönü tahmini projesinin MVP (örnek/prototip)
-veri setini barındırır. Kamuya açık kaynaklardan çekilecek küçük, uçtan uca
-çalışan bir aylık zaman serisi veri setidir (bkz. `prompts/veri/01_mvp_cekirdek_veri_prompt.md`).
+Bu klasör, araç piyasası fiyat yönü tahmini projesinin kamuya açık kaynaklardan
+çekilen aylık zaman serisi veri setlerini barındırır. İki aşama iç içedir:
+
+- **MVP (2025, 12 ay)** — ilk prototip, yalnızca 2025 (bkz.
+  `prompts/veri/01_mvp_cekirdek_veri_prompt.md`).
+- **Genişletme (2024-01 → içinde bulunulan ay)** — daha uzun, dışsal faktörleri
+  de içeren seri (bkz. `prompts/veri/03_genis_veri_cekme_prompt.md`).
 
 **UYARI:** Bu klasöre şirket içi, lisanslı veya özel veri **konulmaz** (karar
 K5 — `docs/00_karar_kaydi.md`). Yalnızca kamuya açık kaynaklardan (TCMB EVDS,
-TÜİK, BETAM sahibindex, arabam.com vb.) çekilen veri kullanılır.
+TÜİK, BETAM sahibindex, arabam.com, ODMD vb.) çekilen veri kullanılır.
 
-Veri dosyaları `.gitignore` ile Git dışıdır; yalnızca klasör yapısı (`raw/`,
-`processed/` ve bu README) versiyonlanır. Prompt/kod versiyonlanır, çekilen
-veri versiyonlanmaz.
+Veri dosyaları (`.csv`/`.xlsx`/`.json`) `.gitignore` ile Git dışıdır; yalnızca
+klasör yapısı (`.gitkeep`) ve `processed/raporlar/` altındaki `.md` belgeleri
+versiyonlanır. Prompt/kod versiyonlanır, çekilen veri versiyonlanmaz.
 
-## Klasörler
+## Klasör yapısı
 
-- `raw/` — her kaynaktan çekilen ham dosyalar (değiştirilmemiş).
-- `processed/` — birleştirilmiş, temizlenmiş, aylık tek tablo haline getirilmiş veri.
+Her iki alt klasör (`raw/`, `processed/`) kendi içinde **kaynak/kategori
+adına göre** alt klasörlere ayrılmıştır (karışıklığı önlemek için — birden
+fazla format (csv/xlsx/json) ve birden fazla aşama (2025 MVP + 2024-bugün
+genişletme) aynı düz klasörde biriktiğinde okunması zorlaşıyordu).
+
+```
+data/
+├── raw/                    # her kaynaktan çekilen ham/ara dosyalar
+│   ├── usdtry/              USD/TRY (TCMB EVDS3)
+│   ├── tufe/                 TÜFE (TCMB EVDS3)
+│   ├── proxy_fiyat/          proxy ilan fiyatı (BETAM sahibindex + arabam.com)
+│   ├── faiz/                 taşıt kredisi faizi + politika faizi (TCMB EVDS3)
+│   ├── odmd/                 sıfır araç satış adetleri (ODMD basın bültenleri)
+│   └── otv/                  ÖTV event-dummy (Resmî Gazete/haber taraması)
+└── processed/               # birleştirilmiş / etiketlenmiş / belgelenmiş çıktılar
+    ├── mvp/                  MVP (2025) birleşik + etiketli tablo
+    ├── genisletme/            genişletme (2024-bugün) birleşik tablo
+    └── raporlar/              veri sözlüğü, temizleme raporu, PM raporları (.md — Git'e girer)
+```
+
+**Not (script yazarken/güncellerken):** `scripts/veri/*.py` içindeki her script
+kendi kategorisinin alt klasörüne okur/yazar (ör. `data/raw/usdtry/`). Yeni bir
+kaynak eklerken aynı deseni izleyin — düz `data/raw/` köküne dosya yazmayın.
 
 ## Bilinen sınır
 
 Kamuya açık ikinci el araç fiyat serileri (BETAM sahibindex, arabam.com aylık
-fiyat endeksi) mix/kompozisyon düzeltmesizdir (karar N1). MVP aşamasında bu
-seriler **yer tutucu (proxy) hedef** olarak kullanılır; nihai hedef değildir.
+fiyat endeksi) mix/kompozisyon düzeltmesizdir (karar N1). Bu serilerdeki
+`proxy_fiyat` sütunu **yer tutucu (proxy) hedeftir**, nihai hedef değildir.
+
+Diğer bilinen boşluklar ve kaynak-seviyesi ayrıntıları için:
+`data/processed/raporlar/veri_sozlugu.md` ve ilgili `pm_rapor_*.md` dosyaları.

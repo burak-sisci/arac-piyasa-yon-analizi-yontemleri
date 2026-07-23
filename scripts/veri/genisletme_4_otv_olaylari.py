@@ -24,7 +24,7 @@ from pathlib import Path
 import pandas as pd
 
 REPO_KOKU = Path(__file__).resolve().parents[2]
-RAW_DIR = REPO_KOKU / "data" / "raw"
+RAW_DIR = REPO_KOKU / "data" / "raw" / "otv"
 
 BASLANGIC_AY = "2024-01"
 BITIS_AY = "2026-06"

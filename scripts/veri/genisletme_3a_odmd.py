@@ -31,7 +31,7 @@ from pathlib import Path
 import pandas as pd
 
 REPO_KOKU = Path(__file__).resolve().parents[2]
-RAW_DIR = REPO_KOKU / "data" / "raw"
+RAW_DIR = REPO_KOKU / "data" / "raw" / "odmd"
 
 # Ek 1 (Otomobil + Hafif Ticari Araç toplamı) — "3 Aralık 2024" ve
 # "2 Haziran 2026" bültenlerinin Ek-1 tablolarından birebir okunmuştur.

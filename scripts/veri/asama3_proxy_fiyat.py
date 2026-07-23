@@ -31,7 +31,7 @@ KRITIK UYARI (karar N1, veri sozlugune de yazilacak): Bu proxy seri MIX/
 KOMPOZISYON DUZELTMESIZDIR (ham ortalama ilan fiyati). MVP'de YER-TUTUCU
 hedef olarak kullanilir, NIHAI HEDEF DEGILDIR.
 
-Cikti: data/raw/proxy_fiyat_2025_raw.csv (+ .xlsx) - tum cikarilan alanlar ve
+Cikti: data/raw/proxy_fiyat/proxy_fiyat_2025_raw.csv (+ .xlsx) - tum cikarilan alanlar ve
 kaynak izi dahil.
 """
 import sys
@@ -40,7 +40,7 @@ from pathlib import Path
 import pandas as pd
 
 REPO_KOKU = Path(__file__).resolve().parents[2]
-RAW_DIR = REPO_KOKU / "data" / "raw"
+RAW_DIR = REPO_KOKU / "data" / "raw" / "proxy_fiyat"
 
 # Her kayit: WebFetch ile ilgili sayfadan CEKILEN ve dogrulanan degerler.
 # "kaynak_alinti" = sayfadaki birebir cumle (izlenebilirlik icin).

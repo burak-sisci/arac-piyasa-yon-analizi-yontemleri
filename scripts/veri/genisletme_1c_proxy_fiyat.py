@@ -23,7 +23,7 @@ from pathlib import Path
 import pandas as pd
 
 REPO_KOKU = Path(__file__).resolve().parents[2]
-RAW_DIR = REPO_KOKU / "data" / "raw"
+RAW_DIR = REPO_KOKU / "data" / "raw" / "proxy_fiyat"
 
 # Her kayit WebFetch ile ilgili BETAM/arabam.com sayfasindan CEKILEN ve
 # dogrulanan degerlerdir. "kaynak_alinti" = sayfadaki birebir cumle.

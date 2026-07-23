@@ -31,7 +31,7 @@ SERIES = {
 }
 
 REPO_KOKU = Path(__file__).resolve().parents[2]
-RAW_DIR = REPO_KOKU / "data" / "raw"
+RAW_DIR = REPO_KOKU / "data" / "raw" / "faiz"
 ENV_PATH = REPO_KOKU / ".env"
 
 

@@ -3,12 +3,22 @@ exports/
 
 # Çekilen veri — git'e girmez (prompt/kod versiyonlanır, veri versiyonlanmaz;
 # karar K5: yalnızca kamuya açık kaynaklar, şirket içi veri repoya girmez)
+# Veri, kaynak adına göre alt klasörlere ayrılmıştır (data/raw/usdtry/,
+# data/raw/tufe/ vb.) — yalnızca klasör yapısı (.gitkeep) versiyonlanır.
 data/raw/*
 data/processed/*
 !data/raw/.gitkeep
 !data/processed/.gitkeep
-# İstisna: veri sözlüğü/rapor gibi .md belgeleri versiyonlanır (veri değil).
-!data/processed/*.md
+# Alt klasörlerin kendisi görünür olsun (icine girilebilsin):
+!data/raw/*/
+!data/processed/*/
+# ...ama icindeki HER SEY yine varsayilan olarak gizli kalsin:
+data/raw/*/*
+data/processed/*/*
+# ...yalnizca .gitkeep'ler ve raporlar/ altindaki .md'ler istisna:
+!data/raw/*/.gitkeep
+!data/processed/*/.gitkeep
+!data/processed/raporlar/*.md
 
 # API anahtarları / gizli bilgiler — asla git'e girmez
 .env

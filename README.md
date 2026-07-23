@@ -21,15 +21,17 @@ ve karar-odaklı bir sunumdur.
 | `docs/` | Master plan ve numaralı faz çıktıları |
 | `docs/sentez/` | Sentez raporu ve sunum taslağı |
 | `prompts/` | Fazlarda kullanılan promptların arşivi |
-| `prompts/veri/` | MVP veri seti toplama promptlarının arşivi |
-| `data/` | MVP örnek veri seti (raw/processed); veri dosyaları Git'e girmez — bkz. `data/README.md` |
+| `prompts/veri/` | Veri toplama promptlarının arşivi (MVP + genişletme) |
+| `scripts/veri/` | Veri çekme/temizleme/birleştirme kodu (kaynak adına göre, tekrar çalıştırılabilir) |
+| `data/` | MVP (2025) + genişletilmiş (2024-bugün) veri; kaynak adına göre alt klasörler; veri dosyaları Git'e girmez — bkz. `data/README.md` |
 | `exports/` | docx/pptx/pdf dönüşümleri (Git'e girmez) |
 
 ## Durum
 
 **Not:** Faz 1–7 tamamlandı; Faz 8 (başarısızlık modları) ve sentez raporu
 taslak aşamasında, proje sahibi onayı bekliyor. Bununla paralel olarak proje
-artık MVP (örnek) veri seti aşamasına geçti — bkz. `data/` ve `prompts/veri/`.
+artık veri mühendisliği aşamasında (MVP + 2024-bugün genişletme) — bkz. `data/`,
+`scripts/veri/` ve `prompts/veri/`.
 
 - [x] Faz 0 — Planlama promptu hazırlandı
 - [x] Faz 0 — Master plan üretildi ve onaylandı

@@ -23,7 +23,7 @@ import pandas as pd
 
 REPO_KOKU = Path(__file__).resolve().parents[2]
 RAW_DIR = REPO_KOKU / "data" / "raw"
-PROCESSED_DIR = REPO_KOKU / "data" / "processed"
+PROCESSED_DIR = REPO_KOKU / "data" / "processed" / "genisletme"
 
 HEDEF_BASLANGIC = "2024-01"
 HEDEF_BITIS = "2026-06"
@@ -32,15 +32,15 @@ HEDEF_BITIS = "2026-06"
 def main():
     PROCESSED_DIR.mkdir(parents=True, exist_ok=True)
 
-    usdtry = pd.read_csv(RAW_DIR / "usdtry_2024_bugun_aylik.csv")[
+    usdtry = pd.read_csv(RAW_DIR / "usdtry" / "usdtry_2024_bugun_aylik.csv")[
         ["referans_ayi", "usdtry_aysonu", "usdtry_ortalama"]
     ]
 
-    tufe = pd.read_csv(RAW_DIR / "tufe_2024_bugun_aylik.csv").rename(
+    tufe = pd.read_csv(RAW_DIR / "tufe" / "tufe_2024_bugun_aylik.csv").rename(
         columns={"yayim_tarihi": "tufe_yayim_tarihi"}
     )[["referans_ayi", "tufe_endeks", "tufe_aylik_degisim", "tufe_yillik_degisim", "tufe_yayim_tarihi"]]
 
-    proxy_ham = pd.read_csv(RAW_DIR / "proxy_fiyat_2024_bugun_raw.csv")
+    proxy_ham = pd.read_csv(RAW_DIR / "proxy_fiyat" / "proxy_fiyat_2024_bugun_raw.csv")
     betam_maske = proxy_ham["kaynak"] == "BETAM sahibindex"
     proxy = proxy_ham[["referans_ayi", "proxy_dom_gun", "proxy_satis_orani_pct", "yayim_ayi"]].copy()
     proxy["proxy_fiyat_cari_tl"] = proxy_ham["proxy_fiyat_cari_tl"].where(betam_maske)
@@ -48,11 +48,11 @@ def main():
     proxy["proxy_fiyat_arabamcom_referans_tl"] = proxy_ham.get("proxy_fiyat_arabamcom_referans_tl")
     proxy = proxy.rename(columns={"yayim_ayi": "proxy_yayim_ayi"})
 
-    faizler = pd.read_csv(RAW_DIR / "faizler_2024_bugun_aylik.csv")
+    faizler = pd.read_csv(RAW_DIR / "faiz" / "faizler_2024_bugun_aylik.csv")
 
-    odmd = pd.read_csv(RAW_DIR / "odmd_2024_bugun_aylik.csv")
+    odmd = pd.read_csv(RAW_DIR / "odmd" / "odmd_2024_bugun_aylik.csv")
 
-    otv = pd.read_csv(RAW_DIR / "otv_olaylari_2024_bugun_aylik.csv")
+    otv = pd.read_csv(RAW_DIR / "otv" / "otv_olaylari_2024_bugun_aylik.csv")
 
     birlesik = usdtry.merge(tufe, on="referans_ayi", how="outer")
     birlesik = birlesik.merge(proxy, on="referans_ayi", how="outer")

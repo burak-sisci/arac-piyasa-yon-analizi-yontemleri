@@ -34,7 +34,7 @@ EVDS_BASE_URL = "https://evds3.tcmb.gov.tr/igmevdsms-dis/"
 SERIES = ["TP.DK.USD.A", "TP.DK.USD.S"]  # ABD Dolari alis / satis (TCMB)
 
 REPO_KOKU = Path(__file__).resolve().parents[2]
-RAW_DIR = REPO_KOKU / "data" / "raw"
+RAW_DIR = REPO_KOKU / "data" / "raw" / "usdtry"
 ENV_PATH = REPO_KOKU / ".env"
 
 

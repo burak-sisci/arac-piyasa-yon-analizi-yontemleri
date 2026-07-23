@@ -1,11 +1,13 @@
 """
 AŞAMA 4 — Üç kaynağı (USD/TRY, TÜFE, proxy fiyat) birleştirme.
 
-Girdi (Aşama 1-3'ün ürettiği ham/ara tablolar, data/raw/):
-    usdtry_2025_aylik.csv, tufe_2025_aylik.csv, proxy_fiyat_2025_raw.csv
+Girdi (Aşama 1-3'ün ürettiği ham/ara tablolar, kaynak adına göre alt klasörde):
+    data/raw/usdtry/usdtry_2025_aylik.csv
+    data/raw/tufe/tufe_2025_aylik.csv
+    data/raw/proxy_fiyat/proxy_fiyat_2025_raw.csv
 
-Çıktı: data/processed/mvp_2025_birlesik.csv (+ .xlsx) — tek satır = tek ay,
-anahtar = referans_ayi (YYYY-MM). Ayrıca data/processed/veri_sozlugu.md üretir.
+Çıktı: data/processed/mvp/mvp_2025_birlesik.csv (+ .xlsx) — tek satır = tek ay,
+anahtar = referans_ayi (YYYY-MM).
 
 Not: "Çekme raporu" (hangi kaynağın hangi seviyeden geldiği, eksik ay/uyarılar)
 bilinçli olarak ayrı bir dosya olarak üretilmez (proje sahibinin talebi); bu
@@ -17,20 +19,20 @@ import pandas as pd
 
 REPO_KOKU = Path(__file__).resolve().parents[2]
 RAW_DIR = REPO_KOKU / "data" / "raw"
-PROCESSED_DIR = REPO_KOKU / "data" / "processed"
+PROCESSED_DIR = REPO_KOKU / "data" / "processed" / "mvp"
 
 
 def main():
     PROCESSED_DIR.mkdir(parents=True, exist_ok=True)
 
-    usdtry = pd.read_csv(RAW_DIR / "usdtry_2025_aylik.csv")
+    usdtry = pd.read_csv(RAW_DIR / "usdtry" / "usdtry_2025_aylik.csv")
     usdtry = usdtry[["referans_ayi", "usdtry_aysonu", "usdtry_ortalama"]]
 
-    tufe = pd.read_csv(RAW_DIR / "tufe_2025_aylik.csv")
+    tufe = pd.read_csv(RAW_DIR / "tufe" / "tufe_2025_aylik.csv")
     tufe = tufe.rename(columns={"yayim_tarihi": "tufe_yayim_tarihi"})
     tufe = tufe[["referans_ayi", "tufe_endeks", "tufe_aylik_degisim", "tufe_yayim_tarihi"]]
 
-    proxy = pd.read_csv(RAW_DIR / "proxy_fiyat_2025_raw.csv")
+    proxy = pd.read_csv(RAW_DIR / "proxy_fiyat" / "proxy_fiyat_2025_raw.csv")
     proxy = proxy.rename(columns={
         "proxy_fiyat_cari_tl": "proxy_fiyat",
         "proxy_dom_gun": "proxy_dom",

@@ -17,7 +17,7 @@ DÜZELTİLEN İKİ SORUN:
    proxy_aylik_log_degisim TÜM aylarda ham cari_fiyat_tl serisinden YERELDE
    hesaplanır (metinden ayıklanmaz) - böylece 12 ay boyunca aynı yöntemle
    üretilmiş, karşılaştırılabilir bir seri elde edilir. Rapor metinlerindeki
-   ham yıllık/aylık % değerleri data/raw/proxy_fiyat_2025_raw.csv'de zaten
+   ham yıllık/aylık % değerleri data/raw/proxy_fiyat/proxy_fiyat_2025_raw.csv'de zaten
    kaynak-alıntılı olarak saklıdır (bu script onları SİLMEZ, sadece bu işlenmiş
    tabloya taşımaz).
 
@@ -33,7 +33,7 @@ import pandas as pd
 
 REPO_KOKU = Path(__file__).resolve().parents[2]
 RAW_DIR = REPO_KOKU / "data" / "raw"
-PROCESSED_DIR = REPO_KOKU / "data" / "processed"
+PROCESSED_DIR = REPO_KOKU / "data" / "processed" / "mvp"
 
 # --- Parametrik ayarlar (kolayca degistirilebilir) ---
 ESIK_K = 0.5          # oynaklik-uyarlamali bant carpani: |log_degisim| < k*sigma -> stable
@@ -74,15 +74,15 @@ def _tercile_etiket(log_degisim: pd.Series, n: int) -> pd.Series:
 def main():
     PROCESSED_DIR.mkdir(parents=True, exist_ok=True)
 
-    usdtry = pd.read_csv(RAW_DIR / "usdtry_2025_aylik.csv")[
+    usdtry = pd.read_csv(RAW_DIR / "usdtry" / "usdtry_2025_aylik.csv")[
         ["referans_ayi", "usdtry_aysonu", "usdtry_ortalama"]
     ]
 
-    tufe = pd.read_csv(RAW_DIR / "tufe_2025_aylik.csv").rename(
+    tufe = pd.read_csv(RAW_DIR / "tufe" / "tufe_2025_aylik.csv").rename(
         columns={"yayim_tarihi": "tufe_yayim_tarihi"}
     )[["referans_ayi", "tufe_endeks", "tufe_aylik_degisim", "tufe_yayim_tarihi"]]
 
-    proxy_ham = pd.read_csv(RAW_DIR / "proxy_fiyat_2025_raw.csv")
+    proxy_ham = pd.read_csv(RAW_DIR / "proxy_fiyat" / "proxy_fiyat_2025_raw.csv")
 
     # --- GOREV 1: tek-kaynak omurga + ayri referans sutunu ---
     betam_maske = proxy_ham["kaynak"] == "BETAM sahibindex"
