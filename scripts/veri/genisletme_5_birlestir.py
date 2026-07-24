@@ -13,11 +13,12 @@ genisletme_2a_noter_devir.py), alim gucu proxy'si / brut ucret-maas endeksi
 (B - TÜİK resmi tablo, ceyreklik->aylik genisletildi, bkz.
 genisletme_2b_alim_gucu.py).
 
-DAHIL EDILMEYEN (hala BLOKLU - tanimi netlesmedi, PM'e birakildi):
-erisilebilirlik endeksi (2c) - kesin formulu (ornegin "ortalama arac fiyati
-/ aylik ucret" gibi bir oran mi olacagi) PM ile netlestirilmeli; bu, raw
-veri cekme degil bir TUREV/hesaplama adimidir, o yuzden Asama 5 (etiketleme)
-tarzinda ayri bir adimda ele alinmalidir.
+ERISILEBILIRLIK ENDEKSI (2c) COZULDU: orijinal gorev promptu
+(prompts/veri/03_genis_veri_cekme_prompt.md, Asama 2c) formulu zaten
+tanimliyordu - "erisim_endeksi = noter_devir_adedi / alim_gucu_proxy".
+Bu bir FEATURE'dir (K8: hedef degil, talep/likidite sinyali), yeni veri
+cekmeye gerek yok - 2a+2b zaten birlesik tabloda oldugu icin burada
+dogrudan turetiliyor.
 
 HEDEF ETIKET: Bu script SADECE BIRLESTIRIR; etiket uretimi (Asama 5'in
 "HEDEF ETIKET" alt-basligi, k*sigma bandi vb.) ayrı bir onay/adimdir ve
@@ -85,6 +86,13 @@ def main():
     birlesik = birlesik[
         (birlesik["referans_ayi"] >= HEDEF_BASLANGIC) & (birlesik["referans_ayi"] <= HEDEF_BITIS)
     ].sort_values("referans_ayi").reset_index(drop=True)
+
+    # --- 2c: erisilebilirlik/talep orani (FEATURE, hedef degil - K8) ---
+    # Formul, orijinal gorev promptunda (Asama 2c) tanimlanmisti:
+    # erisim_endeksi = noter_devir_adedi / alim_gucu_proxy
+    birlesik["erisim_endeksi"] = (
+        birlesik["noter_devir_toplam_adet"] / birlesik["brut_ucret_maas_endeksi_2021_100"]
+    )
 
     csv_yolu = PROCESSED_DIR / "veri_2024_bugun_birlesik.csv"
     xlsx_yolu = PROCESSED_DIR / "veri_2024_bugun_birlesik.xlsx"

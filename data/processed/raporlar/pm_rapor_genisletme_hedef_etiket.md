@@ -112,3 +112,24 @@ referans_ayi  proxy_fiyat_cari_tl  proxy_aylik_log_degisim  proxy_yon_nominal  p
 3. MVP (2025) ve genişletme (2024-2026) etiketli tablolarını karşılaştırmalı
    bir şekilde gözden geçir — iki dönem arasında sınıf dağılımı nasıl
    değişmiş, tutarlı mı diye bakılabilir.
+
+---
+
+## Ek Not (aynı gün, sonraki tur) — 2c çözüldü; 3b/4b bilinçli olarak ertelendi
+
+- **Erişilebilirlik endeksi (2c) ÇÖZÜLDÜ.** Formül orijinal görev promptunda
+  (`prompts/veri/03_genis_veri_cekme_prompt.md`, Aşama 2c) zaten tanımlıydı:
+  `erisim_endeksi = noter_devir_toplam_adet / brut_ucret_maas_endeksi_2021_100`.
+  Yeni veri çekmeye gerek kalmadı — 2a/2b zaten birleşik tabloda olduğu için
+  `genisletme_5_birlestir.py`'ye tek satır türetme olarak eklendi.
+- **Araç ithalat hacmi (Aşama 3b'nin "İTHALAT" yarısı) PM KARARIYLA
+  ERTELENDİ.** EVDS'te ODMD/OSD tarzı temiz bir "araç ithalatı" serisi
+  bulunamadı (yalnızca genel BEC/ISIC sınıflandırmalı toplu dış ticaret
+  endeksleri var, araca özgü değil). Gerçek veri muhtemelen TÜİK dış ticaret
+  istatistiklerinde GTİP/HS kod bazlı, PDF/tablo kazıma gerektirecek —
+  token maliyeti nedeniyle bu turda denenmedi.
+- **İkinci el idari önlemler (Aşama 4b) PM KARARIYLA ERTELENDİ.**
+  Araştırılmadı (belirsiz kapsam, garanti sonuç yok); PM ile birlikte ele
+  alınacak.
+- Bu ikisi orijinal proje kapsamındaydı ama MVP/hedef-etiket akışını
+  BLOKLAMIYOR — istenirse ayrı bir oturumda ele alınabilir.
