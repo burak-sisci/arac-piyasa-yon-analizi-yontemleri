@@ -38,7 +38,7 @@ data/
 │   └── alim_gucu/            brüt ücret-maaş endeksi, alım gücü proxy'si (TÜİK veri portalı, çeyreklik)
 └── processed/               # birleştirilmiş / etiketlenmiş / belgelenmiş çıktılar
     ├── mvp/                  MVP (2025) birleşik + etiketli tablo
-    ├── genisletme/            genişletme (2024-bugün) birleşik tablo
+    ├── genisletme/            genişletme (2024-bugün) birleşik + etiketli tablo
     └── raporlar/              veri sözlüğü, temizleme raporu, PM raporları (.md — Git'e girer)
 ```
 
