@@ -89,3 +89,30 @@ gibi yardımcı işler için yazılır.
     (5) Varsayımlar ve Kararlar (K/N kararlarına uygunluk), (6) Açık Sorular /
     PM Onayı Gerekenler, (7) Önerilen Sonraki Adım (başlatılmaz, yalnızca önerilir).
     Rapor oturumda özet olarak da gösterilir.
+
+## Otonomi Sınırı — Kullanıcı Gerekli / Gerekli Değil
+
+Bu projede iş süreçleri ikiye ayrılır. 'Kullanıcı gerekli' olmayan tüm işler
+Claude Code tarafından onay beklenmeden uçtan uca yürütülür; proje sahibi
+gerektiğinde müdahale eder.
+
+KULLANICI GEREKLİ (onay/karar beklenir):
+- Bağlayıcı karar değişiklikleri (hedef tanımı, kapsam, K/N maddeleri).
+- Yeni bir AŞAMA TÜRÜ başlatma (ör. veri toplamadan modellemeye geçiş).
+  Aynı aşama içindeki adım geçişleri onay gerektirmez.
+- Para/hesap gerektiren işlemler (API anahtarı, ücretli servis).
+- Kapsam dışına çıkacak veya geri alınması zor işlemler.
+
+KULLANICI GEREKLİ DEĞİL (otonom yürütülür):
+- Veri çekme, temizleme, birleştirme, doğrulama adımları.
+- Kod yazma, refactor, test, hata düzeltme.
+- Klasör/dosya organizasyonu, commit ve push.
+- Rapor ve dokümantasyon üretimi.
+
+PROAKTİF BİLDİRİM (onay değil, bilgilendirme — sessiz kalınmaz):
+- Şüpheli/doğrulanmamış bulgular (kaynaklar arası çelişen rakamlar, dış araç
+  çıktısındaki hatalar vb.).
+- Beklenmedik sonuçlar, bloke edici riskler, varsayımla çözülen noktalar.
+- PM raporları (bilgilendirme amaçlı iletilir, onay beklenmez).
+
+Kural: Şüphe varsa bildir; bildirmemek, yanlış ilerlemekten daha maliyetlidir.
